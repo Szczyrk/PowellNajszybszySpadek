@@ -24,14 +24,13 @@ namespace WindowsFormsApp1
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            pictureBox3.CreateGraphics().Clear(Color.Red);
+
             sx = pictureBox3.Width / 2;
             sy = pictureBox3.Height / 2;
             Function f = new Function("f", textBox1.Text, "x");
-            for (int i = -10; i < 11; i++)
+            for (int i = -200; i < 201; i++)
             {
-                PictureBox box;
-                Point p = new Point(sx+i,sy+ (int)f.calculate(i));
+                Point p = new Point(sx+i,sy- (int)(f.calculate(i)));
                 points.Add(p);
                 mXparser.consolePrintln(f.calculate(i));
             }
@@ -39,6 +38,12 @@ namespace WindowsFormsApp1
             {
                 pictureBox3.CreateGraphics().DrawLine(new Pen(Color.Red, 2), points[i], points[i+1]);
             }
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            points.Clear();
+            pictureBox3.Invalidate();
         }
     }
 }
