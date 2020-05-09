@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
             sx = pictureBox3.Width / 2;
             sy = pictureBox3.Height / 2;
             Function f = new Function("f", textBox1.Text, "x");
-            for (int i = -200; i < 201; i++)
+            for (int i = -300; i < 301; i++)
             {
                 Point p = new Point(sx+i,sy- (int)(f.calculate(i)));
                 points.Add(p);
