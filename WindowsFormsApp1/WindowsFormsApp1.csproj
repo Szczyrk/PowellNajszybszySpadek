@@ -103,6 +103,7 @@
     <Compile Include="mxparser\syntaxchecker\Token.cs" />
     <Compile Include="mxparser\syntaxchecker\TokenMgrError.cs" />
     <Compile Include="mxparser\Tutorial.cs" />
+    <Compile Include="Powell.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
