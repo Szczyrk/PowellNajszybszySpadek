@@ -62,31 +62,50 @@ namespace WindowsFormsApp1
 
             string[] restrictions_g = checkedListBox1.CheckedItems.OfType<string>().ToArray();
             string[] arguments = dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray();
-            Powell powell = new Powell(textBox1.Text, restrictions_g, arguments, double.Parse(textBox6.Text), 1);
+            double c_min;
+            if (!double.TryParse(textBox5.Text, out c_min))
+            {
+                c_min = 0;
+            }
+            Powell powell = new Powell(textBox1.Text, restrictions_g, arguments, c_min);
 
-            mXparser.consolePrintln(powell.Calculate(values.ToArray()));
-            for (int i = -200; i < 201; i++)
+            double c;
+            if (!double.TryParse(textBox6.Text, out c))
             {
-                Point p = new Point(sx + i, sy - (int)(f.calculate(i)));
-                points.Add(p);
-            }
-            for (int i = 0; i < points.Count - 1; i++)
-            {
-                pictureBox3.CreateGraphics().DrawLine(new Pen(Color.Red, 2), points[i], points[i + 1]);
+                c = 0;
             }
 
-            foreach (Function func in powell.Restrictions_g)
+            double[] x = powell.Calculate(values.ToArray(), c);
+            for(int i = 0; i<arguments.Length; i++)
             {
-                for (int i = -200; i < 201; i++)
-                {
-                    Point p = new Point(sx + i, sy - (int)(func.calculate(i)));
-                    points2.Add(p);
-                }
-                for (int i = 0; i < points.Count - 1; i++)
-                {
-                    pictureBox3.CreateGraphics().DrawLine(new Pen(Color.FromArgb(i), 2), points2[i], points2[i + 1]);
-                }
+                mXparser.consolePrintln(x[i]);
+                textBox12.Text += $"{arguments[i]}: {x[i]}";
             }
+            mXparser.consolePrintln($"k: { powell.k} \n");
+            textBox12.Text += $"ilość kroków: { powell.k} \n";
+
+            /*  for (int i = -200; i < 201; i++)
+              {
+                  Point p = new Point(sx + i, sy - (int)(f.calculate(i)));
+                  points.Add(p);
+              }
+              for (int i = 0; i < points.Count - 1; i++)
+              {
+                  pictureBox3.CreateGraphics().DrawLine(new Pen(Color.Red, 2), points[i], points[i + 1]);
+              }
+
+              foreach (Function func in powell.Restrictions_g)
+              {
+                  for (int i = -200; i < 201; i++)
+                  {
+                      Point p = new Point(sx + i, sy - (int)(func.calculate(i)));
+                      points2.Add(p);
+                  }
+                  for (int i = 0; i < points.Count - 1; i++)
+                  {
+                      pictureBox3.CreateGraphics().DrawLine(new Pen(Color.FromArgb(i), 2), points2[i], points2[i + 1]);
+                  }
+              }*/
         }
 
         private void Button2_Click(object sender, EventArgs e)

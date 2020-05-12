@@ -49,6 +49,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBox12 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -135,14 +136,14 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(41, 39);
+            this.textBox5.Location = new System.Drawing.Point(55, 39);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 68;
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(41, 62);
+            this.textBox6.Location = new System.Drawing.Point(55, 62);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 69;
@@ -152,9 +153,9 @@
             this.textBox7.Enabled = false;
             this.textBox7.Location = new System.Drawing.Point(14, 38);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(21, 20);
+            this.textBox7.Size = new System.Drawing.Size(35, 20);
             this.textBox7.TabIndex = 70;
-            this.textBox7.Text = "x0";
+            this.textBox7.Text = "c_min";
             // 
             // textBox8
             // 
@@ -163,7 +164,7 @@
             this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox8.Location = new System.Drawing.Point(14, 61);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(21, 20);
+            this.textBox8.Size = new System.Drawing.Size(35, 20);
             this.textBox8.TabIndex = 71;
             this.textBox8.Text = "c";
             // 
@@ -231,11 +232,20 @@
             this.Column2.Name = "Column2";
             this.Column2.Width = 95;
             // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(256, 35);
+            this.textBox12.Multiline = true;
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(604, 91);
+            this.textBox12.TabIndex = 79;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1359, 631);
+            this.Controls.Add(this.textBox12);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.textBox10);
@@ -284,6 +294,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.TextBox textBox12;
     }
 }
 
