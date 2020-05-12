@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace WindowsFormsApp1
 {
@@ -25,8 +27,9 @@ namespace WindowsFormsApp1
         private void Button1_Click(object sender, EventArgs e)
         {
 
-            sx = pictureBox3.Width / 2;
-            sy = pictureBox3.Height / 2;
+            //sx = pictureBox3.Width / 2;
+            //sy = pictureBox3.Height / 2;
+           
             Function f = new Function("f", textBox1.Text, "x");
             for (int i = -300; i < 301; i++)
             {
@@ -36,7 +39,7 @@ namespace WindowsFormsApp1
             }
             for (int i = 0; i < points.Count -1; i++)
             {
-                pictureBox3.CreateGraphics().DrawLine(new Pen(Color.Red, 2), points[i], points[i+1]);
+                cartesianChart1.cre.CreateGraphics().DrawLine(new Pen(Color.Red, 2), points[i], points[i+1]);
             }
         }
 
