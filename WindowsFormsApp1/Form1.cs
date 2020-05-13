@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace WindowsFormsApp1
 {
@@ -47,6 +49,7 @@ namespace WindowsFormsApp1
 
         private void Button1_Click(object sender, EventArgs e)
         {
+
 
             sx = pictureBox3.Width / 2;
             sy = pictureBox3.Height / 2;
