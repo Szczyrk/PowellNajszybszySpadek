@@ -51,7 +51,7 @@ namespace WindowsFormsApp1
             sx = pictureBox3.Width / 2;
             sy = pictureBox3.Height / 2;
 
-            Function f = new Function("f", textBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
+            Function f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
             mXparser.consolePrintln(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
             mXparser.consolePrintln();
             List<double> values = new List<double>();
@@ -67,7 +67,12 @@ namespace WindowsFormsApp1
             {
                 c_min = 0;
             }
-            Powell powell = new Powell(textBox1.Text, restrictions_g, arguments, c_min);
+            int max_k = 10;
+            int.TryParse(textBox1.Text, out max_k);
+
+            Powell powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k);
+
+
 
             double c;
             if (!double.TryParse(textBox6.Text, out c))
@@ -76,13 +81,13 @@ namespace WindowsFormsApp1
             }
 
             double[] x = powell.Calculate(values.ToArray(), c);
-            for(int i = 0; i<arguments.Length; i++)
+            for (int i = 0; i < arguments.Length; i++)
             {
                 mXparser.consolePrintln(x[i]);
-                textBox12.Text += $"{arguments[i]}: {x[i]}";
+                textBox12.Text += $"{arguments[i]}: {x[i]}\r\n";
             }
-            mXparser.consolePrintln($"k: { powell.k} \n");
-            textBox12.Text += $"ilość kroków: { powell.k} \n";
+            mXparser.consolePrintln($"k: { powell.k} \r\n");
+            textBox12.Text += $"ilość kroków: { powell.k} \r\n";
 
             /*  for (int i = -200; i < 201; i++)
               {
@@ -118,6 +123,7 @@ namespace WindowsFormsApp1
         private void Button3_Click(object sender, EventArgs e)
         {
             checkedListBox1.Items.Add(textBox2.Text);
+            checkedListBox1.SetSelected(checkedListBox1.Items.Count - 1, true);
         }
 
         private void Button4_Click(object sender, EventArgs e)
