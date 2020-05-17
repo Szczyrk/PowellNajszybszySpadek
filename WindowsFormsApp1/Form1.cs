@@ -13,11 +13,10 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        int sx = 486;
-        int sy = 277;
-
         List<Argument> Arguments = new List<Argument>();
         public DataGridViewButtonColumn button;
+        bool Debug = true;
+        static TextBox textBox14S;
 
         class Argument
         {
@@ -43,13 +42,17 @@ namespace WindowsFormsApp1
             button.UseColumnTextForButtonValue = true;
             button.Width = 40;
             dataGridView1.Columns.Add(button);
+            textBox14S = textBox14;
+            if (Debug)
+                textBox14.Visible = true;
+            else
+                textBox14.Visible = false;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-
-            sx = pictureBox3.Width / 2;
-            sy = pictureBox3.Height / 2;
+            if (CheckInpuValue())
+                return;
 
             Function f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
             mXparser.consolePrintln(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
@@ -70,24 +73,33 @@ namespace WindowsFormsApp1
             int max_k = 10;
             int.TryParse(textBox1.Text, out max_k);
 
-            Powell powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k);
-
-
-
             double c;
             if (!double.TryParse(textBox6.Text, out c))
             {
                 c = 0;
             }
 
-            double[] x = powell.Calculate(values.ToArray(), c);
+
+
+
+            Powell powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
+
+
+            double alfa;
+            if (!double.TryParse(textBox15.Text, out alfa))
+            {
+                alfa = 1;
+            }
+            powell.alfa = alfa;
+
+            double[] x = powell.Calculate(values.ToArray());
             for (int i = 0; i < arguments.Length; i++)
             {
                 mXparser.consolePrintln(x[i]);
-                textBox12.Text += $"{arguments[i]}: {x[i]}\r\n";
+                textBox12.Text = $"{arguments[i]}: {x[i]}\r\n {textBox12.Text}";
             }
             mXparser.consolePrintln($"k: { powell.k} \r\n");
-            textBox12.Text += $"ilość kroków: { powell.k} \r\n";
+            textBox12.Text = $"ilość kroków: { powell.k} \r\n {textBox12.Text}";
 
             /*  for (int i = -200; i < 201; i++)
               {
@@ -111,6 +123,36 @@ namespace WindowsFormsApp1
                       pictureBox3.CreateGraphics().DrawLine(new Pen(Color.FromArgb(i), 2), points2[i], points2[i + 1]);
                   }
               }*/
+        }
+
+        private bool CheckInpuValue()
+        {
+            if (comboBox1.Text == "")
+            {
+                textBox12.Text = $" Proszę podać funkcję \r\n{textBox12.Text}";
+                return true;
+            }
+            if (textBox5.Text == "")
+            {
+                textBox12.Text = $" Proszę podać c_min \r\n{textBox12.Text}";
+                return true;
+            }
+            if (dataGridView1.Rows.Count == 0)
+            {
+                textBox12.Text = $"Proszę podać argumenty i wartości poczkowe \r\n{textBox12.Text}";
+                return true;
+            }
+            if (textBox1.Text == "")
+            {
+                textBox12.Text = $"Proszę podać k \r\n{textBox12.Text}";
+                return true;
+            }
+            if (textBox6.Text == "")
+            {
+                textBox12.Text = $"Proszę podać c \r\n{textBox12.Text}";
+                return true;
+            }
+            return false;
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -140,6 +182,10 @@ namespace WindowsFormsApp1
                 Arguments.RemoveAt(e.RowIndex);
                 dataGridView1.Rows.RemoveAt(e.RowIndex);
             }
+        }
+        public static void DebugSendMessage(string value)
+        {
+            textBox14S.Text = $"{value} \r\n{textBox14S.Text}";
         }
     }
 }
