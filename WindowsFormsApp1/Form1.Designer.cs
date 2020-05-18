@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -50,8 +49,22 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.textBox12 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cartesianChart2 = new LiveCharts.WinForms.CartesianChart();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cartesianChart3 = new LiveCharts.WinForms.CartesianChart();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -63,13 +76,6 @@
             this.button1.Text = "Oblicz";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(460, 12);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(238, 20);
-            this.textBox1.TabIndex = 59;
             // 
             // button2
             // 
@@ -83,23 +89,32 @@
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(206, 97);
+            this.cartesianChart1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cartesianChart1.Location = new System.Drawing.Point(6, 17);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(604, 310);
+            this.cartesianChart1.Size = new System.Drawing.Size(791, 402);
             this.cartesianChart1.TabIndex = 62;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(100, 50);
+            this.pictureBox3.TabIndex = 85;
+            this.pictureBox3.TabStop = false;
+            // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(878, 106);
+            this.textBox2.Location = new System.Drawing.Point(1054, 210);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(194, 20);
+            this.textBox2.Size = new System.Drawing.Size(182, 20);
             this.textBox2.TabIndex = 63;
             // 
             // textBox3
             // 
             this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(1078, 62);
+            this.textBox3.Location = new System.Drawing.Point(1254, 97);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 64;
@@ -108,7 +123,7 @@
             // button3
             // 
             this.button3.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.button3.Location = new System.Drawing.Point(1078, 106);
+            this.button3.Location = new System.Drawing.Point(1242, 210);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 23);
             this.button3.TabIndex = 65;
@@ -119,7 +134,7 @@
             // textBox4
             // 
             this.textBox4.Enabled = false;
-            this.textBox4.Location = new System.Drawing.Point(888, 13);
+            this.textBox4.Location = new System.Drawing.Point(1064, 9);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(148, 20);
             this.textBox4.TabIndex = 66;
@@ -128,9 +143,16 @@
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(878, 39);
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "4-x1-x2",
+            "x1^2-x2",
+            "x1+x2-2",
+            "x1-2*x2+1",
+            "x1^2+x2^2-1",
+            "x1*x1-x2"});
+            this.checkedListBox1.Location = new System.Drawing.Point(1054, 35);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(194, 64);
+            this.checkedListBox1.Size = new System.Drawing.Size(194, 169);
             this.checkedListBox1.TabIndex = 67;
             // 
             // textBox5
@@ -236,15 +258,121 @@
             this.textBox12.Location = new System.Drawing.Point(256, 35);
             this.textBox12.Multiline = true;
             this.textBox12.Name = "textBox12";
+            this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox12.Size = new System.Drawing.Size(604, 91);
             this.textBox12.TabIndex = 79;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "x1^4+x2^4-2*x1^2*x2-4*x1+3",
+            "(x1-2)^2+(x2-1)^2",
+            "(x1-2)*(x1-2)+(x2-1)*(x2-1)",
+            "(x1^2+x2-11)^2+(x1+x2^2-7)^2",
+            "x1^4+x2^4-x1^2-x2^2"});
+            this.comboBox1.Location = new System.Drawing.Point(280, 11);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(420, 21);
+            this.comboBox1.TabIndex = 80;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(55, 15);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 81;
+            // 
+            // textBox13
+            // 
+            this.textBox13.Enabled = false;
+            this.textBox13.Location = new System.Drawing.Point(14, 15);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(37, 20);
+            this.textBox13.TabIndex = 82;
+            this.textBox13.Text = "Kroki";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(1042, 249);
+            this.textBox14.Multiline = true;
+            this.textBox14.Name = "textBox14";
+            this.textBox14.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox14.Size = new System.Drawing.Size(312, 370);
+            this.textBox14.TabIndex = 83;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(221, 141);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(815, 451);
+            this.tabControl1.TabIndex = 86;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.cartesianChart1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(807, 425);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "f(arg1,arg2)/arg1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.cartesianChart2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(807, 425);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "f(arg1,arg2)/arg2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // cartesianChart2
+            // 
+            this.cartesianChart2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cartesianChart2.Location = new System.Drawing.Point(8, 11);
+            this.cartesianChart2.Name = "cartesianChart2";
+            this.cartesianChart2.Size = new System.Drawing.Size(791, 402);
+            this.cartesianChart2.TabIndex = 63;
+            this.cartesianChart2.Text = "cartesianChart2";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.cartesianChart3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(807, 425);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "arg2/arg1";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cartesianChart3
+            // 
+            this.cartesianChart3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cartesianChart3.Location = new System.Drawing.Point(8, 11);
+            this.cartesianChart3.Name = "cartesianChart3";
+            this.cartesianChart3.Size = new System.Drawing.Size(791, 402);
+            this.cartesianChart3.TabIndex = 63;
+            this.cartesianChart3.Text = "cartesianChart3";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1359, 631);
-            this.Controls.Add(this.cartesianChart1);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox12);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox11);
@@ -262,12 +390,15 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,7 +406,6 @@
 
         #endregion
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button2;
         private LiveCharts.WinForms.CartesianChart cartesianChart1;
         private System.Windows.Forms.PictureBox pictureBox3;
@@ -296,6 +426,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private LiveCharts.WinForms.CartesianChart cartesianChart2;
+        private LiveCharts.WinForms.CartesianChart cartesianChart3;
     }
 }
 

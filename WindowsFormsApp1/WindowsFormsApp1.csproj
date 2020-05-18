@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.props" Condition="Exists('..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.props')" />
+  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +37,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BoDi, Version=1.4.1.0, Culture=neutral, PublicKeyToken=ff7cd5ea2744b496, processorArchitecture=MSIL">
+      <HintPath>..\packages\BoDi.1.4.1\lib\net45\BoDi.dll</HintPath>
+    </Reference>
+    <Reference Include="Cucumber.Messages, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b10c5988214f940c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cucumber.Messages.6.0.1\lib\net45\Cucumber.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="Gherkin, Version=6.0.0.0, Culture=neutral, PublicKeyToken=86496cfa5b4a5851, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gherkin.6.0.0\lib\net45\Gherkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.7.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -42,10 +58,80 @@
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=3.2.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,9 +139,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow, Version=3.1.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecFlow.3.1.97\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
+    <Reference Include="TechTalk.SpecFlow.NUnit.SpecFlowPlugin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpecFlow.NUnit.3.1.97\lib\net45\TechTalk.SpecFlow.NUnit.SpecFlowPlugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Utf8Json, Version=1.3.7.0, Culture=neutral, PublicKeyToken=8a73d3ba7e392e27, processorArchitecture=MSIL">
+      <HintPath>..\packages\Utf8Json.1.3.7\lib\net47\Utf8Json.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -117,6 +211,201 @@
     <Compile Include="mxparser\syntaxchecker\Token.cs" />
     <Compile Include="mxparser\syntaxchecker\TokenMgrError.cs" />
     <Compile Include="mxparser\Tutorial.cs" />
+    <Compile Include="nzy3d-api\Chart\Chart.cs" />
+    <Compile Include="nzy3d-api\Chart\ChartScene.cs" />
+    <Compile Include="nzy3d-api\Chart\ChartView.cs" />
+    <Compile Include="nzy3d-api\Chart\Controllers\AbstractController.cs" />
+    <Compile Include="nzy3d-api\Chart\Controllers\Camera\AbstractCameraController.cs" />
+    <Compile Include="nzy3d-api\Chart\Controllers\ControllerType.cs" />
+    <Compile Include="nzy3d-api\Chart\Controllers\Mouse\Camera\CameraMouseController.cs" />
+    <Compile Include="nzy3d-api\Chart\Controllers\Thread\Camera\CameraThreadController.cs" />
+    <Compile Include="nzy3d-api\Colors\Color.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorMapper.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapGrayscale.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapHotCold.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapRainbow.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapRBG.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapRedAndGreen.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapWhiteBlue.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapWhiteGreen.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\ColorMapWhiteRed.cs" />
+    <Compile Include="nzy3d-api\Colors\ColorsMaps\IColorMap.cs" />
+    <Compile Include="nzy3d-api\Colors\IColorMappable.cs" />
+    <Compile Include="nzy3d-api\Colors\IMultiColorable.cs" />
+    <Compile Include="nzy3d-api\Colors\ISingleColorable.cs" />
+    <Compile Include="nzy3d-api\Events\ControllerEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\DrawableChangedEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\IControllerEventListener.cs" />
+    <Compile Include="nzy3d-api\Events\IDrawableListener.cs" />
+    <Compile Include="nzy3d-api\Events\IScaleChangedListener.cs" />
+    <Compile Include="nzy3d-api\Events\IViewIsVerticalEventListener.cs" />
+    <Compile Include="nzy3d-api\Events\IViewModeChangedListener.cs" />
+    <Compile Include="nzy3d-api\Events\IViewPointChangedListener.cs" />
+    <Compile Include="nzy3d-api\Events\Keyboard\IKeyListener.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\IMouseListener.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\IMouseMotionListener.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\IMouseWheelListener.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\MouseButton.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\MouseEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\Mouse\MouseWheelEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\ObjectEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\ScaleChangedEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\ViewIsVerticalEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\ViewModeChangedEventArgs.cs" />
+    <Compile Include="nzy3d-api\Events\ViewPointChangedEventArgs.cs" />
+    <Compile Include="nzy3d-api\Factories\AxeFactory.cs" />
+    <Compile Include="nzy3d-api\Factories\CameraFactory.cs" />
+    <Compile Include="nzy3d-api\Factories\NzyFactories.cs" />
+    <Compile Include="nzy3d-api\Factories\OrderingStrategyFactory.cs" />
+    <Compile Include="nzy3d-api\Factories\Renderer3dFactory.cs" />
+    <Compile Include="nzy3d-api\Factories\SceneFactory.cs" />
+    <Compile Include="nzy3d-api\Factories\ViewFactory.cs" />
+    <Compile Include="nzy3d-api\Glut\BitmapCharRec.cs" />
+    <Compile Include="nzy3d-api\Glut\BitmapFontRec.cs" />
+    <Compile Include="nzy3d-api\Glut\CoordRec.cs" />
+    <Compile Include="nzy3d-api\Glut\Glut.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmap8x13.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmap9x15.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmapHelvetica10.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmapHelvetica12.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmapHelvetica18.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmapTimesRoman10.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTBitmapTimesRoman24.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTStrokeMonoRoman.cs" />
+    <Compile Include="nzy3d-api\Glut\GLUTStrokeRoman.cs" />
+    <Compile Include="nzy3d-api\Glut\StrokeCharRec.cs" />
+    <Compile Include="nzy3d-api\Glut\StrokeFontRec.cs" />
+    <Compile Include="nzy3d-api\Glut\StrokeRec.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\Interpolation\Bernstein\BernsteinInterpolator.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\Interpolation\Bernstein\BernsteinPolynomial.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\Interpolation\Bernstein\Spline3D.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\Interpolation\IInterpolator.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\OutlierRemover.cs" />
+    <Compile Include="nzy3d-api\Maths\Algorithms\ScaleFinder.cs" />
+    <Compile Include="nzy3d-api\Maths\Angle2d.cs" />
+    <Compile Include="nzy3d-api\Maths\Angle3d.cs" />
+    <Compile Include="nzy3d-api\Maths\Array.cs" />
+    <Compile Include="nzy3d-api\Maths\BoundingBox2d.cs" />
+    <Compile Include="nzy3d-api\Maths\BoundingBox3d.cs" />
+    <Compile Include="nzy3d-api\Maths\Coord2d.cs" />
+    <Compile Include="nzy3d-api\Maths\Coord3d.cs" />
+    <Compile Include="nzy3d-api\Maths\Coordinates.cs" />
+    <Compile Include="nzy3d-api\Maths\Graphs\DefaultGraph.cs" />
+    <Compile Include="nzy3d-api\Maths\Graphs\IGraph.cs" />
+    <Compile Include="nzy3d-api\Maths\Graphs\StringGraphGenerator.cs" />
+    <Compile Include="nzy3d-api\Maths\Grid.cs" />
+    <Compile Include="nzy3d-api\Maths\IntegerCoord2d.cs" />
+    <Compile Include="nzy3d-api\Maths\Mapper.cs" />
+    <Compile Include="nzy3d-api\Maths\Normal.cs" />
+    <Compile Include="nzy3d-api\Maths\Pair.cs" />
+    <Compile Include="nzy3d-api\Maths\PlaneAxis.cs" />
+    <Compile Include="nzy3d-api\Maths\PolygonArray.cs" />
+    <Compile Include="nzy3d-api\Maths\Range.cs" />
+    <Compile Include="nzy3d-api\Maths\Scale.cs" />
+    <Compile Include="nzy3d-api\Maths\Statistics.cs" />
+    <Compile Include="nzy3d-api\Maths\TicToc.cs" />
+    <Compile Include="nzy3d-api\Maths\Utils.cs" />
+    <Compile Include="nzy3d-api\Maths\Vector2d.cs" />
+    <Compile Include="nzy3d-api\Maths\Vector3d.cs" />
+    <Compile Include="nzy3d-api\Plot2D\Primitives\ColorbarImageGenerator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Builder.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\BufferedImageMapper.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\CustomGrid.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\OrthonormalGrid.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\OrthonormalTessellator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\RingExtrapolator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\RingGrid.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\RingTessellator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Concrete\SphereScatterGenerator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\DelaunayCoordinateValidator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\DelaunayTessellator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\DelaunayTriangulationManager.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\ICoordinateValidator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\ITriangulation.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\BoundingBox.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\Circle_dt.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\Delaunay_Triangulation.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\GridIndex.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\Point_dt.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\Jdt\Triangle_dt.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Delaunay\OrthonormalCoordinateValidator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Grid.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\IObjectTopology.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Mapper.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Builder\Tessellator.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\AbstractComposite.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\AbstractDrawable.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\AbstractWireframeable.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\AxeBase.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\AxeBox.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\IAxe.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\AxeBoxLayout.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\IAxeLayout.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Providers\AbstractTickProvider.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Providers\ITickProvider.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Providers\RegularTickProvider.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Providers\SmartTickProvider.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Providers\StaticTickProvider.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\DateTickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\DefaultDecimalTickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\FixedDecimalTickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\IntegerTickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\ITickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\ScientificNotationTickRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Axes\Layout\Renderers\TickLabelMap.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\CompileableComposite.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Graphs\Layout\DefaultGraphLayout2d.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Graphs\Layout\IGraphLayout2d.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\IGLBindedResource.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\IGLRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\ISortableDraw.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Parallelepiped.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Point.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Polygon.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Selectable\ISelectable.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\Shape.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Canvas\ICanvas.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Canvas\Quality.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Legends\Colorbars\ColorbarLegend.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Legends\Legend.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Lights\Light.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Lights\LightSet.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Lights\LightSwitch.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Ordering\AbstractOrderingStrategy.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Ordering\BarycentreOrderingStrategy.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Ordering\DefaultOrderingStrategy.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Ordering\PointOrderingStrategy.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Scene\Decomposition.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Scene\Graph.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\Scene\Scene.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\AbstractViewport.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\Camera.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\ImageRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\ImageViewport.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\IRenderer2D.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\Modes\CameraMode.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\Modes\ViewBoundMode.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\Modes\ViewPositionMode.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\Renderer3D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\View.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Rendering\View\ViewPort.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\AbstractTextRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\Align\Halign.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\Align\Valign.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\ITextRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\Renderer\TextBillboardRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Text\Renderer\TextBitmapRenderer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Transform\ITransformer.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Transform\Scale.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Transform\Transform.cs" />
+    <Compile Include="nzy3d-wpfDemo\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nzy3d-wpfDemo\MyMapper.cs" />
+    <Compile Include="nzy3d-wpfDemo\Properties\Resources.Designer.cs" />
+    <Compile Include="nzy3d-wpfDemo\Properties\Settings.Designer.cs" />
     <Compile Include="Powell.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,6 +413,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="nzy3d-wpfDemo\Properties\Resources.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -135,6 +425,9 @@
     </Compile>
     <None Include="mxparser\syntaxchecker\generate-SyntaxChecker.bat" />
     <None Include="mxparser\syntaxchecker\SyntaxChecker.jj" />
+    <None Include="nzy3d-wpfDemo\MainWindow.xaml.bak" />
+    <None Include="nzy3d-wpfDemo\Properties\Settings.settings" />
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -150,7 +443,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\c3.css" />
+    <Content Include="Content\c3.min.css" />
+    <Content Include="LICENSE.txt" />
     <Content Include="mxparser\syntaxchecker\csjavacc.jar" />
+    <Content Include="nzy3d-api\nzy3d-api.csproj" />
+    <Content Include="nzy3d-wpfDemo\nzy3d-wpfDemo.csproj" />
+    <Content Include="Scripts\c3.js" />
+    <Content Include="Scripts\c3.min.js" />
+    <Content Include="Scripts\d3.js" />
+    <Content Include="Scripts\d3.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="nzy3d-wpfDemo\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\SpecFlow.3.1.97\build\SpecFlow.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SpecFlow.3.1.97\build\SpecFlow.targets'))" />
+    <Error Condition="!Exists('..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.targets'))" />
+  </Target>
+  <Import Project="..\packages\SpecFlow.3.1.97\build\SpecFlow.targets" Condition="Exists('..\packages\SpecFlow.3.1.97\build\SpecFlow.targets')" />
+  <Import Project="..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.targets" Condition="Exists('..\packages\SpecFlow.NUnit.3.1.97\build\SpecFlow.NUnit.targets')" />
 </Project>
