@@ -22,6 +22,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using WindowsFormsApp1.nzy3d_api.Plot3D.Primitives;
 
 namespace nzy3d_wpfDemo
 {
@@ -36,7 +37,7 @@ namespace nzy3d_wpfDemo
         List<Function> function;
         List<Coord3d> coord3Ds = new List<Coord3d>();
 
-        public MainWindow(List<Function> fs, List<List<double>>xy, List<double> z)
+        public MainWindow(List<Function> fs, List<List<double>> xy, List<double> z)
         {
             InitializeComponent();
             function = fs;
@@ -81,9 +82,10 @@ namespace nzy3d_wpfDemo
             // Build a nice surface to display with cool alpha colors 
             // (alpha 0.8 for surface color and 0.5 for wireframe)
             Chart chart = new Chart(renderer, Quality.Nicest);
+            Shape surface;
             foreach (var func in function)
             {
-                Shape surface = Builder.buildOrthonomal(new OrthonormalGrid(range, steps, range, steps), new MyMapper(func));
+                surface = Builder.buildOrthonomal(new OrthonormalGrid(range, steps, range, steps), new MyMapper(func));
                 surface.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface.Bounds.zmin, surface.Bounds.zmax, Color.random());
                 surface.FaceDisplayed = true;
                 surface.WireframeDisplayed = true;
@@ -94,18 +96,12 @@ namespace nzy3d_wpfDemo
                 // Create the chart and embed the surface within
                 chart.Scene.Graph.Add(surface);
             }
-
-            Shape surface2 = Builder.buildDelaunay(coord3Ds);
-           // surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, new Color(1, 1, 1, 0.8));
-            surface2.FaceDisplayed = true;
-            surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, new Color(0, 0, 0, 0.1));
-            surface2.WireframeDisplayed = true;
-            surface2.WireframeColor = Color.BLACK;
-            surface2.WireframeColor.mul(new Color(1, 1, 1, 0.5));
-            surface2.LegendDisplayed = true;
+ 
+            MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new Color[] { Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -0.5f, 0.5f), 5f);
 
             // Create the chart and embed the surface within
             chart.Scene.Graph.Add(surface2);
+
 
             axeLayout = chart.AxeLayout;
             DisplayXTicks = true;

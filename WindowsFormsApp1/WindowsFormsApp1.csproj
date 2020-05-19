@@ -359,6 +359,7 @@
     <Compile Include="nzy3d-api\Plot3D\Primitives\IGLBindedResource.cs" />
     <Compile Include="nzy3d-api\Plot3D\Primitives\IGLRenderer.cs" />
     <Compile Include="nzy3d-api\Plot3D\Primitives\ISortableDraw.cs" />
+    <Compile Include="nzy3d-api\Plot3D\Primitives\MultiColorScatter.cs" />
     <Compile Include="nzy3d-api\Plot3D\Primitives\Parallelepiped.cs" />
     <Compile Include="nzy3d-api\Plot3D\Primitives\Point.cs" />
     <Compile Include="nzy3d-api\Plot3D\Primitives\Polygon.cs" />
