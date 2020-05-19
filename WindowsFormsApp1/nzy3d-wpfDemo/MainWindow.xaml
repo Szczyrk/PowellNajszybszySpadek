@@ -2,20 +2,31 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="nzy3d Demo" Height="600" Width="800" Loaded="Window_Loaded" Closing="Window_Closing">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="300"/>
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="MainGrid"></Grid>
-        <StackPanel Orientation="Vertical" Grid.Column="1">
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayXTicks}">Display X ticks</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayYTicks}">Display Y ticks</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayZTicks}">Display Z ticks</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayXAxisLabel}">Display X axis label</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayYAxisLabel}">Display Y axis label</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayZAxisLabel}">Display Z axis label</CheckBox>
-            <CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayTickLines}">Display tick lines</CheckBox>
-        </StackPanel>
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="300"/>
+		</Grid.ColumnDefinitions>
+		<Grid x:Name="MainGrid"></Grid>
+		<StackPanel Orientation="Vertical" Grid.Column="1">
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayXTicks}">Liczby na osi X</CheckBox>
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayYTicks}">Liczby na osi Y</CheckBox>
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayZTicks}">Liczby na osi Z</CheckBox>
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayXAxisLabel}">Oznaczenie osi X</CheckBox>
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayYAxisLabel}">Oznaczenie osi Y</CheckBox>
+			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayZAxisLabel}">Oznaczenie osi Z</CheckBox>
+			<Grid Height="32">
+				<TextBlock HorizontalAlignment="Left" Margin="10,10,0,-10" TextWrapping="Wrap" VerticalAlignment="Top" Width="146"><Run Text="Dok"/><Run Text="ł"/><Run Text="adność wykres"/><Run Text="ó"/><Run Text="w"/></TextBlock>
+				<TextBox x:Name="kroki" HorizontalAlignment="Left" Height="33" Margin="156,0,0,-1" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="144" IsUndoEnabled="True"/>
+			</Grid>
+			<Grid Height="32">
+				<TextBlock HorizontalAlignment="Left" Margin="10,10,0,-10" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" Text="Zakres od"/>
+				<TextBox x:Name="od" HorizontalAlignment="Left" Height="22" Margin="82,9,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="74"/>
+				<TextBlock x:Name="do" HorizontalAlignment="Left" Margin="170,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="22" Height="20"><Run Text="do"/></TextBlock>
+				<TextBox HorizontalAlignment="Left" Height="22" Margin="206,9,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="74"/>
+			</Grid>
+			<Grid x:Name="Images" Height="100"/>
+			<Button Content="Załaduj ponownie" Click="Button_Click"/>
+		</StackPanel>
+	</Grid>
 </Window>
