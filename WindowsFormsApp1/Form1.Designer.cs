@@ -83,7 +83,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 60;
-            this.button2.Text = "Wyczyś";
+            this.button2.Text = "Wyczyść";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
@@ -239,6 +239,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(202, 166);
             this.dataGridView1.TabIndex = 78;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Click);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Column1
             // 
@@ -249,7 +250,7 @@
             // 
             // Column2
             // 
-            this.Column2.HeaderText = "Wartość";
+            this.Column2.HeaderText = "Wartość początkowa";
             this.Column2.Name = "Column2";
             this.Column2.Width = 95;
             // 

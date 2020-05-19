@@ -26,7 +26,7 @@
 				<TextBox HorizontalAlignment="Left" Height="22" Margin="206,9,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="74"/>
 			</Grid>
 			<Grid x:Name="Images" Height="100"/>
-			<Button Content="Załaduj ponownie" Click="Button_Click"/>
+			<Button Content="Załaduj wykres ponownie" Click="Button_Click"/>
 		</StackPanel>
 	</Grid>
 </Window>

@@ -224,5 +224,10 @@ namespace WindowsFormsApp1
         {
             textBox14S.Text = $"{value} \r\n{textBox14S.Text}";
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

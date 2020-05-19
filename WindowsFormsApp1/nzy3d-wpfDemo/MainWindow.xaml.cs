@@ -128,7 +128,7 @@ namespace nzy3d_wpfDemo
             surface2.Legend = legend;
             // Create the chart and embed the surface within
             chart.Scene.Graph.Add(surface2);
-
+            /*
             foreach (var legend2 in chart.Scene.Graph.Legends)
              {
                  var webImage = legend2.Image;
@@ -145,7 +145,7 @@ namespace nzy3d_wpfDemo
             DisplayZTicks = true;
             DisplayZAxisLabel = true;
             DisplayTickLines = true;
-
+            */
             // Create a mouse control
             nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController mouse = new nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController();
             mouse.addControllerEventListener(renderer);
