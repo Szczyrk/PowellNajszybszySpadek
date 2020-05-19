@@ -13,6 +13,7 @@ using LiveCharts.Wpf;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using nzy3d_wpfDemo;
+using System.Globalization;
 
 namespace WindowsFormsApp1
 {
@@ -111,7 +112,7 @@ namespace WindowsFormsApp1
             func.Add(f);
             foreach (var resF in Restrictions_g)
                 func.Add(resF);
-            if (arguments.Length == 2 && powell._xPath.Any<double[]>(o => o.Any<double>(l => !double.IsNaN(l))))
+            if (arguments.Length == 2 && powell._xPath.All<double[]>(o => o.All<double>(l => !double.IsNaN(l))))
             {
                 MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
                 System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);

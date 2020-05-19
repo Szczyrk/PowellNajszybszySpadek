@@ -42,6 +42,7 @@ namespace nzy3d_wpfDemo
         private IAxeLayout axeLayout;
         List<Function> function;
         List<Coord3d> coord3Ds = new List<Coord3d>();
+        List<nzy3D.Colors.Color> colors = new List<nzy3D.Colors.Color>();
 
         public MainWindow(List<Function> fs, List<double[]> xy, List<double> z)
         {
@@ -49,6 +50,14 @@ namespace nzy3d_wpfDemo
             function = fs;
             for (int i = 0; i < xy.Count; i++)
                 coord3Ds.Add(new Coord3d(xy[i][0], xy[i][1], z[i]));
+
+            colors.Add(new nzy3D.Colors.Color(255, 105, 180));
+            colors.Add(new nzy3D.Colors.Color(0, 255, 127));
+            colors.Add(new nzy3D.Colors.Color(255, 99, 71));
+            colors.Add(new nzy3D.Colors.Color(233, 150, 122));
+            colors.Add(new nzy3D.Colors.Color(218, 112, 214));
+            colors.Add(new nzy3D.Colors.Color(124, 252, 0));
+            colors.Add(new nzy3D.Colors.Color(175, 238, 238));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -105,11 +114,13 @@ namespace nzy3d_wpfDemo
             Chart chart = new Chart(renderer, Quality.Nicest);
 
             Shape surface;
+            int k = 0;
             for (int i = 0; i < function.Count; i++)
             {
+                if (k >= colors.Count)
+                    k = 0;
                 surface = Builder.buildOrthonomal(new OrthonormalGrid(range, steps, range, steps), new MyMapper(function[i]));
-                double k = Convert.ToDouble(i) + 1;
-                surface.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface.Bounds.zmin, surface.Bounds.zmax, new nzy3D.Colors.Color(k / (function.Count + 1), k / (function.Count + 1), k / (function.Count + 1), 1d));
+                surface.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface.Bounds.zmin, surface.Bounds.zmax, colors[k++]);
                 surface.FaceDisplayed = true;
                 surface.WireframeDisplayed = true;
                 surface.WireframeColor = nzy3D.Colors.Color.random();
@@ -119,7 +130,7 @@ namespace nzy3d_wpfDemo
                 chart.Scene.Graph.Add(surface);
             }
 
-            if (coord3Ds.Any<Coord3d>(c => !double.IsNaN(c.x) || !double.IsNaN(c.z) || !double.IsNaN(c.y)))
+            if (coord3Ds.All<Coord3d>(c => !double.IsNaN(c.x) || !double.IsNaN(c.z) || !double.IsNaN(c.y)))
             {
                 MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
                 surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, nzy3D.Colors.Color.BLACK);

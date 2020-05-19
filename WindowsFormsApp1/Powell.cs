@@ -69,7 +69,7 @@ namespace WindowsFormsApp1
             x = _x;
             List<double> alfaFunction = new List<double>();
             double[] gradient = Gradient(k);
-            double alfa2 = 0, tmp2 = 10000000;
+            double alfa2 = 0.1, tmp2 = 10000000;
             for (double i = 0.01; i < 0.2; i += 0.01)
             {
                 alfa = i;
