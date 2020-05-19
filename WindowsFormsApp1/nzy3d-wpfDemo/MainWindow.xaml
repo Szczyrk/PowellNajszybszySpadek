@@ -17,13 +17,13 @@
 			<CheckBox Height="20" VerticalContentAlignment="Center" IsChecked="{Binding DisplayZAxisLabel}">Oznaczenie osi Z</CheckBox>
 			<Grid Height="32">
 				<TextBlock HorizontalAlignment="Left" Margin="10,10,0,-10" TextWrapping="Wrap" VerticalAlignment="Top" Width="146"><Run Text="Dok"/><Run Text="ł"/><Run Text="adność wykres"/><Run Text="ó"/><Run Text="w"/></TextBlock>
-				<TextBox x:Name="kroki" HorizontalAlignment="Left" Height="33" Margin="156,0,0,-1" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="144" IsUndoEnabled="True"/>
+				<TextBox x:Name="kroki" HorizontalAlignment="Left" Height="33" Margin="156,0,0,-1" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="144" IsUndoEnabled="True" MaxLines="1"/>
 			</Grid>
 			<Grid Height="32">
-				<TextBlock HorizontalAlignment="Left" Margin="10,10,0,-10" TextWrapping="Wrap" VerticalAlignment="Top" Width="146" Text="Zakres od"/>
-				<TextBox x:Name="od" HorizontalAlignment="Left" Height="22" Margin="82,9,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="74"/>
-				<TextBlock x:Name="do" HorizontalAlignment="Left" Margin="170,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="22" Height="20"><Run Text="do"/></TextBlock>
-				<TextBox HorizontalAlignment="Left" Height="22" Margin="206,9,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="74"/>
+				<TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="72" Text="Zakres od"/>
+				<TextBox x:Name="od" HorizontalAlignment="Left" Height="22" Margin="82,9,0,0" TextWrapping="Wrap" Text="-10" VerticalAlignment="Top" Width="74" MaxLines="1"/>
+				<TextBlock HorizontalAlignment="Left" Margin="170,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="22" Height="20"><Run Text="do"/></TextBlock>
+				<TextBox x:Name="_do" HorizontalAlignment="Left" Height="22" Margin="206,9,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="74" MaxLines="1"/>
 			</Grid>
 			<Grid x:Name="Images" Height="100"/>
 			<Button Content="Załaduj wykres ponownie" Click="Button_Click"/>

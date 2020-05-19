@@ -43,7 +43,7 @@ namespace nzy3d_wpfDemo
         List<Function> function;
         List<Coord3d> coord3Ds = new List<Coord3d>();
 
-        public MainWindow(List<Function> fs, List<List<double>> xy, List<double> z)
+        public MainWindow(List<Function> fs, List<double[]> xy, List<double> z)
         {
             InitializeComponent();
             function = fs;
@@ -88,7 +88,7 @@ namespace nzy3d_wpfDemo
                 from = -10;
             }
             double to;
-            if (!double.TryParse(@do.Text, out to))
+            if (!double.TryParse(_do.Text, out to))
             {
                 to = 10;
             }
@@ -115,8 +115,6 @@ namespace nzy3d_wpfDemo
                 surface.WireframeColor = nzy3D.Colors.Color.random();
                 surface.WireframeColor.mul(new nzy3D.Colors.Color(1, 1, 1, 0.5));
                 surface.LegendDisplayed = true;
-                ColorbarLegend legend3 = new ColorbarLegend(surface, new AxeBoxLayout());
-                surface.Legend = legend3;
                 // Create the chart and embed the surface within
                 chart.Scene.Graph.Add(surface);
             }
@@ -124,18 +122,8 @@ namespace nzy3d_wpfDemo
 
             MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
             surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, nzy3D.Colors.Color.BLACK);
-            ColorbarLegend legend = new ColorbarLegend(surface2, new AxeBoxLayout());
-            surface2.Legend = legend;
             // Create the chart and embed the surface within
             chart.Scene.Graph.Add(surface2);
-            /*
-            foreach (var legend2 in chart.Scene.Graph.Legends)
-             {
-                 var webImage = legend2.Image;
-                 var imageControl = new System.Windows.Controls.Image();
-                 imageControl.Source = ImageSourceFromBitmap(webImage);
-                 Images.Children.Add(imageControl);
-             }
 
             axeLayout = chart.AxeLayout;
             DisplayXTicks = true;
@@ -145,7 +133,7 @@ namespace nzy3d_wpfDemo
             DisplayZTicks = true;
             DisplayZAxisLabel = true;
             DisplayTickLines = true;
-            */
+
             // Create a mouse control
             nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController mouse = new nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController();
             mouse.addControllerEventListener(renderer);

@@ -93,7 +93,6 @@ namespace WindowsFormsApp1
             }
 
 
-
             Powell powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
 
 
@@ -112,54 +111,8 @@ namespace WindowsFormsApp1
             foreach (var resF in Restrictions_g)
                 func.Add(resF);
             MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
+            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
             form.Show();
-
-
-            /* foreach (var cartesianChart in new LiveCharts.WinForms.CartesianChart[3] { cartesianChart1, cartesianChart2, cartesianChart3 })
-             {
-                 var mapper = Mappers.Xy<ObservablePoint>()
-                     .X(point => point.X) //a 10 base log scale in the X axis
-                     .Y(point => point.Y);
-
-                 cartesianChart.Series = new SeriesCollection(mapper)
-                 {
-                     new LineSeries
-                     {
-                     Title = "Kroki",
-                         Values = new ChartValues<ObservablePoint>()
-                     },
-
-                  new LineSeries
-                     {
-                     Title = $"f()={comboBox1.Text}",
-                         Values = new ChartValues<ObservablePoint>()
-                     },
-                 };
-
-                 foreach (Function func in powell.Restrictions_g)
-                 {
-                     cartesianChart.Series.Add(new LineSeries() { Title = func.getFunctionExpressionString(), Values = new ChartValues<ObservablePoint>() });
-                 }
-                 cartesianChart.Series[0].Values.AddRange(powell._xPath.Select(k => new ObservablePoint(k[0], f.calculate(k.ToArray()))));
-                 points.Clear();
-                 for (int i = -200; i < 201; i++)
-                 {
-                     double[] p = new double[2] { i, f.calculate(i, 1) };
-                     points.Add(p);
-                 }
-                 cartesianChart.Series[1].Values.AddRange(points.Select(k => new ObservablePoint(k[0], k[1])));
-                 int j = 2;
-                 foreach (Function func in powell.Restrictions_g)
-                 {
-                     points2.Clear();
-                     for (int i = -200; i < 201; i++)
-                     {
-                         double[] p = new double[2] { i, func.calculate(i, 1) };
-                         points2.Add(p);
-                     }
-                     cartesianChart.Series[j++].Values.AddRange(points2.Select(k => new ObservablePoint(k[0], k[1])));
-                 }
-             }*/
         }
 
         private bool CheckInpuValue()
@@ -196,7 +149,8 @@ namespace WindowsFormsApp1
         {
             points.Clear();
             points2.Clear();
-            pictureBox3.Invalidate();
+            textBox12.Text = "";
+            textBox14.Text = "";
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -225,9 +179,5 @@ namespace WindowsFormsApp1
             textBox14S.Text = $"{value} \r\n{textBox14S.Text}";
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }
