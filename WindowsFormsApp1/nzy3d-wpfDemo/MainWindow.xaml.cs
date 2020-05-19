@@ -103,7 +103,7 @@ namespace nzy3d_wpfDemo
             // Build a nice surface to display with cool alpha colors 
             // (alpha 0.8 for surface color and 0.5 for wireframe)
             Chart chart = new Chart(renderer, Quality.Nicest);
-   
+
             Shape surface;
             for (int i = 0; i < function.Count; i++)
             {
@@ -119,11 +119,13 @@ namespace nzy3d_wpfDemo
                 chart.Scene.Graph.Add(surface);
             }
 
-
-            MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
-            surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, nzy3D.Colors.Color.BLACK);
-            // Create the chart and embed the surface within
-            chart.Scene.Graph.Add(surface2);
+            if (coord3Ds.Any<Coord3d>(c => !double.IsNaN(c.x) || !double.IsNaN(c.z) || !double.IsNaN(c.y)))
+            {
+                MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
+                surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, nzy3D.Colors.Color.BLACK);
+                // Create the chart and embed the surface within
+                chart.Scene.Graph.Add(surface2);
+            }
 
             axeLayout = chart.AxeLayout;
             DisplayXTicks = true;

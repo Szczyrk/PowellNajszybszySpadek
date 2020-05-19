@@ -70,7 +70,7 @@ namespace WindowsFormsApp1
             List<double> alfaFunction = new List<double>();
             double[] gradient = Gradient(k);
             double alfa2 = 0, tmp2 = 10000000;
-            for (double i = 0.01; i < 0.1; i += 0.01)
+            for (double i = 0.01; i < 0.2; i += 0.01)
             {
                 alfa = i;
                 alfaFunction.Add(MinimalizationFunction(Subtraction(x, MultiAlfa(gradient)), k));
