@@ -51,6 +51,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.textBox14 = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,7 +78,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 529);
+            this.textBox2.Location = new System.Drawing.Point(12, 564);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(202, 20);
             this.textBox2.TabIndex = 63;
@@ -84,7 +86,7 @@
             // textBox3
             // 
             this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(221, 417);
+            this.textBox3.Location = new System.Drawing.Point(221, 452);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(25, 20);
             this.textBox3.TabIndex = 64;
@@ -93,7 +95,7 @@
             // button3
             // 
             this.button3.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.button3.Location = new System.Drawing.Point(13, 555);
+            this.button3.Location = new System.Drawing.Point(13, 590);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 23);
             this.button3.TabIndex = 65;
@@ -104,7 +106,7 @@
             // textBox4
             // 
             this.textBox4.Enabled = false;
-            this.textBox4.Location = new System.Drawing.Point(14, 328);
+            this.textBox4.Location = new System.Drawing.Point(14, 363);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(99, 20);
             this.textBox4.TabIndex = 66;
@@ -120,7 +122,7 @@
             "x1-2*x2+1",
             "x1^2+x2^2-1",
             "x1*x1-x2"});
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 354);
+            this.checkedListBox1.Location = new System.Drawing.Point(12, 389);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(203, 169);
             this.checkedListBox1.TabIndex = 67;
@@ -131,6 +133,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 20);
             this.textBox5.TabIndex = 68;
+            this.textBox5.Text = "0.001";
             // 
             // textBox6
             // 
@@ -138,6 +141,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 69;
+            this.textBox6.Text = "1";
             // 
             // textBox7
             // 
@@ -162,7 +166,7 @@
             // textBox9
             // 
             this.textBox9.Enabled = false;
-            this.textBox9.Location = new System.Drawing.Point(13, 98);
+            this.textBox9.Location = new System.Drawing.Point(13, 133);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 75;
@@ -170,7 +174,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(139, 293);
+            this.button4.Location = new System.Drawing.Point(139, 328);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 74;
@@ -180,14 +184,14 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(12, 293);
+            this.textBox10.Location = new System.Drawing.Point(12, 328);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(58, 20);
             this.textBox10.TabIndex = 73;
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(75, 293);
+            this.textBox11.Location = new System.Drawing.Point(75, 328);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(58, 20);
             this.textBox11.TabIndex = 76;
@@ -202,7 +206,7 @@
             this.Column2});
             this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.Desktop;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 124);
+            this.dataGridView1.Location = new System.Drawing.Point(13, 159);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -252,6 +256,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 81;
+            this.textBox1.Text = "10";
             // 
             // textBox13
             // 
@@ -271,11 +276,32 @@
             this.textBox14.Size = new System.Drawing.Size(604, 370);
             this.textBox14.TabIndex = 83;
             // 
+            // textBox15
+            // 
+            this.textBox15.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox15.Enabled = false;
+            this.textBox15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox15.Location = new System.Drawing.Point(13, 88);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(35, 20);
+            this.textBox15.TabIndex = 84;
+            this.textBox15.Text = "E";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(55, 88);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(100, 20);
+            this.textBox16.TabIndex = 85;
+            this.textBox16.Text = "0.001";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 631);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.textBox15);
             this.Controls.Add(this.textBox14);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox1);
@@ -329,6 +355,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.TextBox textBox16;
     }
 }
 

@@ -14,6 +14,7 @@ using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using nzy3d_wpfDemo;
 using System.Globalization;
+using System.Threading;
 
 namespace WindowsFormsApp1
 {
@@ -24,7 +25,17 @@ namespace WindowsFormsApp1
         public DataGridViewButtonColumn button;
         bool Debug = true;
         static TextBox textBox14S;
-
+        string[] komunikat = new[]{
+        "c<c_min Metoda „minimum” ",
+        "f*_k-f*_(k-1)<E",
+         "x*_k-x*_(k-1)<E ",
+        "Max(gradient)<E test stacjonarności",
+        "ilość korków k>max_k"
+        };
+        Powell powell;
+        List<double> values;
+        string[] arguments;
+        Function f;
         class Argument
         {
             public string name;
@@ -62,18 +73,18 @@ namespace WindowsFormsApp1
                 return;
 
 
-            Function f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
+            f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
 
             mXparser.consolePrintln(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
             mXparser.consolePrintln();
-            List<double> values = new List<double>();
+            values = new List<double>();
             foreach (string value in dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[1].Value.ToString()).ToArray())
                 values.Add(double.Parse(value));
 
             mXparser.consolePrintln(values.ToArray().ToString());
 
             string[] restrictions_g = checkedListBox1.CheckedItems.OfType<string>().ToArray();
-            string[] arguments = dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray();
+            arguments = dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray();
             Restrictions_g.Clear();
             for (int i = 0; i < restrictions_g.Length; i++)
             {
@@ -93,31 +104,40 @@ namespace WindowsFormsApp1
                 c = 0;
             }
 
+            double E;
+            if (!double.TryParse(textBox16.Text, out E))
+            {
+                E = 0.001;
+            }
 
-            Powell powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
 
+            powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
+            powell.E = E;
+            Thread InstanceCaller = new Thread(
+                     new ThreadStart(Thread_powell));
+            InstanceCaller.SetApartmentState(ApartmentState.STA);
+            // Start the thread.
+            InstanceCaller.Start();
 
-            double[] x = powell.Calculate(values.ToArray());
+        }
+        void Thread_powell()
+        {
+            powell.Calculate(values.ToArray());
+            double[] x = powell._xPath[powell.k];
             for (int i = 0; i < arguments.Length; i++)
             {
                 mXparser.consolePrintln(x[i]);
-                textBox12.Text = $"{arguments[i]}: {x[i]}\r\n {textBox12.Text}";
+                SendMessage($"{arguments[i]}: {x[i]}");
             }
             mXparser.consolePrintln($"pkt_opt: {powell.funOptimumStep[powell.k]} \r\n");
-            textBox12.Text = $"pkt_opt: { powell.funOptimumStep[powell.k]} \r\n {textBox12.Text}";
+            SendMessage($"pkt_opt: { powell.funOptimumStep[powell.k]}");
             mXparser.consolePrintln($"k: { powell.k} \r\n");
-            textBox12.Text = $"ilość kroków: { powell.k} \r\n {textBox12.Text}";
-
-            List<Function> func = new List<Function>();
-            func.Add(f);
-            foreach (var resF in Restrictions_g)
-                func.Add(resF);
-            if (arguments.Length == 2 && powell._xPath.All<double[]>(o => o.All<double>(l => !double.IsNaN(l))))
-            {
-                MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
-                System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
-                form.Show();
-            }
+            SendMessage($"ilość kroków: { powell.k}");
+            mXparser.consolePrintln($"Przerawnie: {komunikat[(int)powell.breakF]} \r\n");
+            if (powell.breakF == 0)
+                SendMessage($"c: {powell.c}");
+            SendMessage($"Przerwanie: { komunikat[(int)powell.breakF]}");
+            SendWindow();
         }
 
         private bool CheckInpuValue()
@@ -134,7 +154,7 @@ namespace WindowsFormsApp1
             }
             if (dataGridView1.Rows.Count == 0)
             {
-                textBox12.Text = $"Proszę podać argumenty i wartości poczkowe \r\n{textBox12.Text}";
+                textBox12.Text = $"Proszę podać argumenty i wartości początkowe \r\n{textBox12.Text}";
                 return true;
             }
             if (textBox1.Text == "")
@@ -145,6 +165,11 @@ namespace WindowsFormsApp1
             if (textBox6.Text == "")
             {
                 textBox12.Text = $"Proszę podać c \r\n{textBox12.Text}";
+                return true;
+            }
+            if (textBox16.Text == "")
+            {
+                textBox12.Text = $"Proszę podać E \r\n{textBox12.Text}";
                 return true;
             }
             return false;
@@ -181,8 +206,41 @@ namespace WindowsFormsApp1
         }
         public static void DebugSendMessage(string value)
         {
-            textBox14S.Text = $"{value} \r\n{textBox14S.Text}";
+            textBox14S.Invoke((MethodInvoker)delegate
+            {
+                textBox14S.Text = $"{value}\r\n {textBox14S.Text}"; // runs on UI thread
+            });
         }
 
+        public void SendMessage(string value)
+        {
+            textBox12.Invoke((MethodInvoker)delegate
+            {
+                textBox12.Text = $"{value}\r\n {textBox12.Text}"; // runs on UI thread
+            });
+        }
+
+        void SendWindow()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(SendWindow));
+                List<Function> func = new List<Function>();
+                func.Add(f);
+                foreach (var resF in Restrictions_g)
+                    func.Add(resF);
+                if (arguments.Length == 2 && powell._xPath.All<double[]>(o => o.All<double>(l => !double.IsNaN(l) && !double.IsInfinity(l) && !float.IsInfinity((float)l))))
+                {
+                    if (powell.funOptimumStep.All<double>(o => !double.IsNaN(o) && !double.IsInfinity(o) && !float.IsInfinity((float)o)))
+                    {
+                        MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
+                        System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
+                        form.Show();
+                        System.Windows.Threading.Dispatcher.Run();
+                    }
+                }
+                return;
+            }
+        }
     }
 }
