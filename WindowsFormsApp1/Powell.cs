@@ -442,22 +442,22 @@ namespace WindowsFormsApp1
                     }
                     Form1.DebugSendMessage($"{k} deltas step8IIA  =  {String.Join(" , ", _deltas[k])} thetas = {String.Join(" , ", _thetas[k])} ");
                     //krok 7
-/*                    Form1.DebugSendMessage($"");
-                    k++;
-                    _thetas.Add(new List<double>());
-                    _deltas.Add(new List<double>());
-                    for (int i = 0; i < _restrictions_g.Length; i++)
-                    {
-                        _thetas[k].Add(thetaStart);
-                        _deltas[k].Add(1);
-                    }
-                    x = Subtraction(x, MultiAlfa(Gradient(k - 1)));
-                    _xPath.Add(x);
-                    funOptimumStep.Add(function.calculate(x));
-                    Form1.DebugSendMessage($"f : {funOptimumStep[k]}");
-                    for (int i = 0; i < x.Length; i++)
-                        Form1.DebugSendMessage($"{_arguments[i]} : {x[i]}");
-                    c_0 = c;*/
+                    /*                    Form1.DebugSendMessage($"");
+                                        k++;
+                                        _thetas.Add(new List<double>());
+                                        _deltas.Add(new List<double>());
+                                        for (int i = 0; i < _restrictions_g.Length; i++)
+                                        {
+                                            _thetas[k].Add(thetaStart);
+                                            _deltas[k].Add(1);
+                                        }
+                                        x = Subtraction(x, MultiAlfa(Gradient(k - 1)));
+                                        _xPath.Add(x);
+                                        funOptimumStep.Add(function.calculate(x));
+                                        Form1.DebugSendMessage($"f : {funOptimumStep[k]}");
+                                        for (int i = 0; i < x.Length; i++)
+                                            Form1.DebugSendMessage($"{_arguments[i]} : {x[i]}");
+                                        c_0 = c;*/
                 }
                 else
                 {

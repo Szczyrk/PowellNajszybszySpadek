@@ -55,6 +55,9 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentCulture = customCulture;
             button = new DataGridViewButtonColumn();
             button.Text = "Usuń";
             button.HeaderText = @"Action";
@@ -142,6 +145,10 @@ namespace WindowsFormsApp1
         }
         void Thread_powell()
         {
+            CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentCulture = customCulture;
+
             powell.Calculate(values.ToArray());
             double[] x = powell._xPath[powell.k];
             for (int i = 0; i < arguments.Length; i++)
