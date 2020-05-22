@@ -72,7 +72,7 @@ namespace WindowsFormsApp1
         void DebugSendMessage(double e1, double e2, double e3, double e4)
         {
             Form1.SendMessageC($"{c}");
-            if (_arguments[0] == "x1")
+            if (_arguments[0] == "x1" && _arguments.Length == 2)
             {
                 Form1.SendMessageX1($"{x[0]}");
                 Form1.SendMessageX2($"{x[1]}");
@@ -212,7 +212,7 @@ namespace WindowsFormsApp1
             if (e2 <= E)
             {
                 breakF = Break.xk1_xk2;
-                return true;
+                e2B = true;
             }
 
             sub = Gradient(k);
@@ -221,7 +221,7 @@ namespace WindowsFormsApp1
                 sub[i] = Math.Abs(sub[i]);
             }
             double e3 = sub.Max();
-
+            bool e3B = false;
             mXparser.consolePrintln($"G tepPrevious : {String.Join(" ' ", sub)}");
             Form1.DebugSendMessage($"G stepPrevious : {String.Join(" ' ", sub)}");
             mXparser.consolePrintln($"G score : {e3}");
@@ -229,11 +229,12 @@ namespace WindowsFormsApp1
             if (e3 <= E)
             {
                 breakF = Break.max_absG;
-                return true;
+                e3B = true;
             }
 
             sub = Gradient(k);
             double e4 = 0;
+            bool e4B = false;
             for (int i = 0; i < sub.Length; i++)
             {
                 e4 += Math.Pow(sub[i], 2);
@@ -246,10 +247,12 @@ namespace WindowsFormsApp1
             if (e4 <= E)
             {
                 breakF = Break.skalarG;
-                return true;
+                e4B = true;
             }
 
             DebugSendMessage(e1, e2, e3, e4);
+            if (e1B || e2B || e3B || e4B)
+                return true;
             return false;
         }
 
@@ -257,6 +260,7 @@ namespace WindowsFormsApp1
         {
             while (k < max_k)
             {
+                Form1.waitHandle.WaitOne();
 
                 Form1.DebugSendMessage($"");
                 Form1.DebugSendMessage($"alfa {alfa}");
@@ -291,7 +295,6 @@ namespace WindowsFormsApp1
                 //Krok 4
                 mXparser.consolePrintln($"C {c}");
                 Form1.DebugSendMessage($"C {c}");
-                Form1.SendMessageC($"{c}");
                 if (c < c_min)
                 {
                     breakF = Break.c_cmin;

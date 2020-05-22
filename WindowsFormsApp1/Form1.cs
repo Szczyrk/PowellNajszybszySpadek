@@ -40,6 +40,7 @@ namespace WindowsFormsApp1
         Function f;
         Thread InstanceCaller;
         private volatile bool isRunning;
+        public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
 
         public bool IsRunning { get => isRunning; set => isRunning = value; }
 
@@ -82,17 +83,22 @@ namespace WindowsFormsApp1
             else
                 textBox14.Visible = false;
             button5.Visible = false;
+            button6.Visible = false;
             IsRunning = false;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-       /*     if (IsRunning)
-                return;*/
-            IsRunning = true;
             if (CheckInpuValue())
                 return;
+            button1.Visible = false;
+            IsRunning = true;
+
             button5.Visible = true;
+            button6.Visible = false;
+            if (InstanceCaller != null)
+                InstanceCaller.Abort();
+            waitHandle.Set();
 
             f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
 
@@ -148,7 +154,7 @@ namespace WindowsFormsApp1
             powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
             powell.E = E;
             powell.m2 = m2;
-            powell.thetaStart= theta;
+            powell.thetaStart = theta;
 
             InstanceCaller = new Thread(
                      new ThreadStart(Thread_powell));
@@ -287,6 +293,8 @@ namespace WindowsFormsApp1
                 textBox26S.AppendText(Environment.NewLine);
             });
         }
+
+
         public static void SendMessageF(string value)
         {
             textBox27S.Invoke((MethodInvoker)delegate
@@ -342,6 +350,14 @@ namespace WindowsFormsApp1
             {
                 button5.Visible = false; // runs on UI thread
             });
+            button6.Invoke((MethodInvoker)delegate
+            {
+                button6.Visible = false; // runs on UI thread
+            });
+            button1.Invoke((MethodInvoker)delegate
+            {
+                button1.Visible = true; // runs on UI thread
+            });
             if (InvokeRequired)
             {
                 Invoke(new Action(SendWindow));
@@ -365,9 +381,20 @@ namespace WindowsFormsApp1
 
         private void Button5_Click(object sender, EventArgs e)
         {
+            button1.Visible = true;
             IsRunning = false;
-            InstanceCaller.Abort();
+            waitHandle.Reset();
             button5.Visible = false;
+            button6.Visible = true;
         }
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            IsRunning = true;
+            button1.Visible = false;
+            waitHandle.Set();
+            button5.Visible = true;
+            button6.Visible = false;
+        }
+
     }
 }
