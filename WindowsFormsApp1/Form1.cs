@@ -24,7 +24,8 @@ namespace WindowsFormsApp1
         List<Function> Restrictions_g = new List<Function>();
         public DataGridViewButtonColumn button;
         bool Debug = true;
-        static TextBox textBox14S, textBox28S;
+        static TextBox textBox14S, textBox28S, textBox27S, textBox26S,
+            textBox25S, textBox22S, textBox21S, textBox19S, textBox17S;
         string[] komunikat = new[]{
         "c<c_min Metoda „minimum” ",
         "f*_k-f*_(k-1)<E",
@@ -38,6 +39,10 @@ namespace WindowsFormsApp1
         string[] arguments;
         Function f;
         Thread InstanceCaller;
+        private volatile bool isRunning;
+
+        public bool IsRunning { get => isRunning; set => isRunning = value; }
+
         class Argument
         {
             public string name;
@@ -50,8 +55,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        List<double[]> points = new List<double[]>();
-        List<double[]> points2 = new List<double[]>();
         public Form1()
         {
             InitializeComponent();
@@ -67,15 +70,26 @@ namespace WindowsFormsApp1
             dataGridView1.Columns.Add(button);
             textBox14S = textBox14;
             textBox28S = textBox28;
+            textBox27S = textBox27;
+            textBox26S = textBox26;
+            textBox25S = textBox25;
+            textBox22S = textBox22;
+            textBox21S = textBox21;
+            textBox19S = textBox19;
+            textBox17S = textBox17;
             if (Debug)
                 textBox14.Visible = true;
             else
                 textBox14.Visible = false;
             button5.Visible = false;
+            IsRunning = false;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
+       /*     if (IsRunning)
+                return;*/
+            IsRunning = true;
             if (CheckInpuValue())
                 return;
             button5.Visible = true;
@@ -165,6 +179,7 @@ namespace WindowsFormsApp1
                 SendMessage($"c: {powell.c}");
             SendMessage($"Przerwanie: { komunikat[(int)powell.breakF]}");
             SendWindow();
+            IsRunning = false;
         }
 
         private bool CheckInpuValue()
@@ -204,10 +219,16 @@ namespace WindowsFormsApp1
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            points.Clear();
-            points2.Clear();
             textBox12.Text = "";
             textBox14.Text = "";
+            textBox28.Text = "";
+            textBox27.Text = "";
+            textBox26.Text = "";
+            textBox25.Text = "";
+            textBox22.Text = "";
+            textBox21.Text = "";
+            textBox19.Text = "";
+            textBox17.Text = "";
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -249,6 +270,63 @@ namespace WindowsFormsApp1
             });
         }
 
+        public static void SendMessageX1(string value)
+        {
+            textBox25S.Invoke((MethodInvoker)delegate
+            {
+                textBox25S.AppendText(value); // runs on UI thread
+                textBox25S.AppendText(Environment.NewLine);
+            });
+        }
+
+        public static void SendMessageX2(string value)
+        {
+            textBox26S.Invoke((MethodInvoker)delegate
+            {
+                textBox26S.AppendText(value); // runs on UI thread
+                textBox26S.AppendText(Environment.NewLine);
+            });
+        }
+        public static void SendMessageF(string value)
+        {
+            textBox27S.Invoke((MethodInvoker)delegate
+            {
+                textBox27S.AppendText(value); // runs on UI thread
+                textBox27S.AppendText(Environment.NewLine);
+            });
+        }
+        public static void SendMessageE4(string value)
+        {
+            textBox22S.Invoke((MethodInvoker)delegate
+            {
+                textBox22S.AppendText(value); // runs on UI thread
+                textBox22S.AppendText(Environment.NewLine);
+            });
+        }
+        public static void SendMessageE3(string value)
+        {
+            textBox21S.Invoke((MethodInvoker)delegate
+            {
+                textBox21S.AppendText(value); // runs on UI thread
+                textBox21S.AppendText(Environment.NewLine);
+            });
+        }
+        public static void SendMessageE2(string value)
+        {
+            textBox19S.Invoke((MethodInvoker)delegate
+            {
+                textBox19S.AppendText(value); // runs on UI thread
+                textBox19S.AppendText(Environment.NewLine);
+            });
+        }
+        public static void SendMessageE1(string value)
+        {
+            textBox17S.Invoke((MethodInvoker)delegate
+            {
+                textBox17S.AppendText(value); // runs on UI thread
+                textBox17S.AppendText(Environment.NewLine);
+            });
+        }
         public void SendMessage(string value)
         {
             textBox12.Invoke((MethodInvoker)delegate
@@ -287,6 +365,7 @@ namespace WindowsFormsApp1
 
         private void Button5_Click(object sender, EventArgs e)
         {
+            IsRunning = false;
             InstanceCaller.Abort();
             button5.Visible = false;
         }

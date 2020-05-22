@@ -69,6 +69,27 @@ namespace WindowsFormsApp1
             function = new Function("f", function_f, arguments);
         }
 
+        void DebugSendMessage(double e1, double e2, double e3, double e4)
+        {
+            Form1.SendMessageC($"{c}");
+            if (_arguments[0] == "x1")
+            {
+                Form1.SendMessageX1($"{x[0]}");
+                Form1.SendMessageX2($"{x[1]}");
+            }
+            else
+            {
+                Form1.SendMessageX1($"{x[1]}");
+                Form1.SendMessageX2($"{x[0]}");
+            }
+            Form1.SendMessageF($"{funOptimumStep[k]}");
+            Form1.SendMessageE1($"{e1}");
+            Form1.SendMessageE2($"{e2}");
+            Form1.SendMessageE3($"{e3}");
+            Form1.SendMessageE4($"{e4}");
+
+        }
+
         public double[] Calculate(double[] _x)
         {
             x = _x;
@@ -112,7 +133,6 @@ namespace WindowsFormsApp1
             //Krok 4
             mXparser.consolePrintln($"C {c}");
             Form1.DebugSendMessage($"C {c}");
-            Form1.SendMessageC($"{c}");
             Form1.DebugSendMessage($"f : {funOptimumStep[k]}");
             for (int i = 0; i < x.Length; i++)
                 Form1.DebugSendMessage($"{_arguments[i]} : {x[i]}");
@@ -158,18 +178,19 @@ namespace WindowsFormsApp1
         {
             double step = funOptimumStep[k];
             double stepPrevious = funOptimumStep[k - 1];
-            double score = Math.Abs(step - stepPrevious);
+            double e1 = Math.Abs(step - stepPrevious);
+            bool e1B = false;
 
             mXparser.consolePrintln($"F(x)step : {step}");
             Form1.DebugSendMessage($"F(x)step : {step}");
             mXparser.consolePrintln($"F(x)stepPrevious : {stepPrevious}");
             Form1.DebugSendMessage($"F(x)stepPrevious : {stepPrevious}");
-            mXparser.consolePrintln($"F(x)score : {score}");
-            Form1.DebugSendMessage($"F(x)score : {score}");
-            if (score <= E)
+            mXparser.consolePrintln($"F(x)score : {e1}");
+            Form1.DebugSendMessage($"F(x)score e1 : {e1}");
+            if (e1 <= E)
             {
                 breakF = Break.fk1_fk2;
-                return true;
+                e1B = true;
             }
 
             double[] sub = Subtraction(_xPath[k], _xPath[k - 1]);
@@ -177,7 +198,8 @@ namespace WindowsFormsApp1
             {
                 sub[i] = Math.Abs(sub[i]);
             }
-            score = sub.Max();
+            double e2 = sub.Max();
+            bool e2B = false;
 
             mXparser.consolePrintln($"x_kstep : {String.Join(" ' ", _xPath[k])}");
             Form1.DebugSendMessage($"x_kstep : {String.Join(" ' ", _xPath[k])}");
@@ -185,9 +207,9 @@ namespace WindowsFormsApp1
             Form1.DebugSendMessage($"x_kstepPrevious : {String.Join(" ' ", _xPath[k - 1])}");
             mXparser.consolePrintln($"sub : {String.Join(" ' ", sub)}");
             Form1.DebugSendMessage($"sub : {String.Join(" ' ", sub)}");
-            mXparser.consolePrintln($"x_kscore : {score}");
-            Form1.DebugSendMessage($"x_kscore : {score}");
-            if (score <= E)
+            mXparser.consolePrintln($"x_kscore : {e2}");
+            Form1.DebugSendMessage($"x_kscore e2: {e2}");
+            if (e2 <= E)
             {
                 breakF = Break.xk1_xk2;
                 return true;
@@ -198,36 +220,36 @@ namespace WindowsFormsApp1
             {
                 sub[i] = Math.Abs(sub[i]);
             }
-            score = sub.Max();
+            double e3 = sub.Max();
 
             mXparser.consolePrintln($"G tepPrevious : {String.Join(" ' ", sub)}");
             Form1.DebugSendMessage($"G stepPrevious : {String.Join(" ' ", sub)}");
-            mXparser.consolePrintln($"G score : {score}");
-            Form1.DebugSendMessage($"G score : {score}");
-            if (score <= E)
+            mXparser.consolePrintln($"G score : {e3}");
+            Form1.DebugSendMessage($"G score e3: {e3}");
+            if (e3 <= E)
             {
                 breakF = Break.max_absG;
                 return true;
             }
 
             sub = Gradient(k);
-            score = 0;
+            double e4 = 0;
             for (int i = 0; i < sub.Length; i++)
             {
-                score += Math.Pow(sub[i], 2);
+                e4 += Math.Pow(sub[i], 2);
             }
 
             mXparser.consolePrintln($"G tepPrevious : {String.Join(" ' ", sub)}");
             Form1.DebugSendMessage($"G stepPrevious : {String.Join(" ' ", sub)}");
-            mXparser.consolePrintln($"G score : {score}");
-            Form1.DebugSendMessage($"G score : {score}");
-            if (score <= E)
+            mXparser.consolePrintln($"G score : {e4}");
+            Form1.DebugSendMessage($"G score e4: {e4}");
+            if (e4 <= E)
             {
                 breakF = Break.skalarG;
                 return true;
             }
 
-
+            DebugSendMessage(e1, e2, e3, e4);
             return false;
         }
 
@@ -287,6 +309,8 @@ namespace WindowsFormsApp1
                     //Krok 6
                     StepSix();
                 }
+                if (Restrictions_g.Count == 0)
+                    return;
             }
         }
 
@@ -357,14 +381,21 @@ namespace WindowsFormsApp1
         }
         double tau(int k, double[] gradient)
         {
-            string sumR = "";
-            for (int i = 0; i < Restrictions_g.Count; i++)
+            if (Restrictions_g.Count > 0)
             {
-                sumR += $"{_deltas[k][i]}*";
-                sumR += $"({_restrictions_g[i]}+{_thetas[k][i]})^2*H({_restrictions_g[i]}+{_thetas[k][i]})";
+                string sumR = "";
+                for (int i = 0; i < Restrictions_g.Count; i++)
+                {
+                    sumR += $"{_deltas[k][i]}*";
+                    sumR += $"({_restrictions_g[i]}+{_thetas[k][i]})^2*H({_restrictions_g[i]}+{_thetas[k][i]})";
+                    if (i != Restrictions_g.Count - 1)
+                        sumR += "+";
+                }
+                powell = new Function("Powell", $"{_function_x}+({sumR})", _arguments);
+                powell.addFunctions(H);
             }
-            powell = new Function("Powell", $"{_function_x}+({sumR})", _arguments);
-            powell.addFunctions(H);
+            else
+                powell = new Function("Powell", $"{_function_x}", _arguments);
             string function_tau = $"Powell(";
             for (int i = 0; i < _arguments.Length; i++)
             {
