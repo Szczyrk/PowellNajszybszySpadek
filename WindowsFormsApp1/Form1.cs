@@ -159,6 +159,7 @@ namespace WindowsFormsApp1
             InstanceCaller = new Thread(
                      new ThreadStart(Thread_powell));
             InstanceCaller.SetApartmentState(ApartmentState.STA);
+            InstanceCaller.IsBackground = true;
             // Start the thread.
             InstanceCaller.Start();
 
