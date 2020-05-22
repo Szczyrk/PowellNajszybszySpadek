@@ -24,18 +24,20 @@ namespace WindowsFormsApp1
         List<Function> Restrictions_g = new List<Function>();
         public DataGridViewButtonColumn button;
         bool Debug = true;
-        static TextBox textBox14S;
+        static TextBox textBox14S, textBox28S;
         string[] komunikat = new[]{
         "c<c_min Metoda „minimum” ",
         "f*_k-f*_(k-1)<E",
          "x*_k-x*_(k-1)<E ",
         "Max(gradient)<E test stacjonarności",
-        "ilość korków k>max_k"
+        "ilość korków k>max_k",
+       "<gradient,gradient><E"
         };
         Powell powell;
         List<double> values;
         string[] arguments;
         Function f;
+        Thread InstanceCaller;
         class Argument
         {
             public string name;
@@ -61,17 +63,19 @@ namespace WindowsFormsApp1
             button.Width = 40;
             dataGridView1.Columns.Add(button);
             textBox14S = textBox14;
+            textBox28S = textBox28;
             if (Debug)
                 textBox14.Visible = true;
             else
                 textBox14.Visible = false;
+            button5.Visible = false;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
             if (CheckInpuValue())
                 return;
-
+            button5.Visible = true;
 
             f = new Function("f", comboBox1.Text, dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.Cells[0].Value.ToString()).ToArray());
 
@@ -110,10 +114,26 @@ namespace WindowsFormsApp1
                 E = 0.001;
             }
 
+            double m2;
+            if (!double.TryParse(textBox33.Text, out m2))
+            {
+                m2 = 10;
+            }
+
+            double theta;
+            if (!double.TryParse(textBox33.Text, out theta))
+            {
+                theta = 10;
+            }
+
+
 
             powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
             powell.E = E;
-            Thread InstanceCaller = new Thread(
+            powell.m2 = m2;
+            powell.thetaStart= theta;
+
+            InstanceCaller = new Thread(
                      new ThreadStart(Thread_powell));
             InstanceCaller.SetApartmentState(ApartmentState.STA);
             // Start the thread.
@@ -208,7 +228,17 @@ namespace WindowsFormsApp1
         {
             textBox14S.Invoke((MethodInvoker)delegate
             {
-                textBox14S.Text = $"{value}\r\n {textBox14S.Text}"; // runs on UI thread
+                textBox14S.AppendText(value); // runs on UI thread
+                textBox14S.AppendText(Environment.NewLine);
+            });
+        }
+
+        public static void SendMessageC(string value)
+        {
+            textBox28S.Invoke((MethodInvoker)delegate
+            {
+                textBox28S.AppendText(value); // runs on UI thread
+                textBox28S.AppendText(Environment.NewLine);
             });
         }
 
@@ -216,12 +246,17 @@ namespace WindowsFormsApp1
         {
             textBox12.Invoke((MethodInvoker)delegate
             {
-                textBox12.Text = $"{value}\r\n {textBox12.Text}"; // runs on UI thread
+                textBox12.AppendText(value); // runs on UI thread
+                textBox12.AppendText(Environment.NewLine);
             });
         }
 
         void SendWindow()
         {
+            button5.Invoke((MethodInvoker)delegate
+            {
+                button5.Visible = false; // runs on UI thread
+            });
             if (InvokeRequired)
             {
                 Invoke(new Action(SendWindow));
@@ -241,6 +276,12 @@ namespace WindowsFormsApp1
                 }
                 return;
             }
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            InstanceCaller.Abort();
+            button5.Visible = false;
         }
     }
 }

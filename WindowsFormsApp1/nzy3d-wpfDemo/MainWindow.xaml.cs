@@ -146,6 +146,11 @@ namespace nzy3d_wpfDemo
             DisplayZTicks = true;
             DisplayZAxisLabel = true;
             DisplayTickLines = true;
+            string arg1 = function[0].getArgument(0).getArgumentName();
+            string arg2 = function[0].getArgument(1).getArgumentName();
+            chart.AxeLayout.XAxeLabel = arg1;
+            chart.AxeLayout.YAxeLabel = arg2;
+            chart.AxeLayout.ZAxeLabel = $"f({arg1},{arg2})";
 
             // Create a mouse control
             nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController mouse = new nzy3D.Chart.Controllers.Mouse.Camera.CameraMouseController();
