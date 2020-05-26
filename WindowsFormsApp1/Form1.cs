@@ -15,6 +15,7 @@ using LiveCharts.Defaults;
 using nzy3d_wpfDemo;
 using System.Globalization;
 using System.Threading;
+using System.Diagnostics;
 
 namespace WindowsFormsApp1
 {
@@ -28,11 +29,10 @@ namespace WindowsFormsApp1
             textBox25S, textBox22S, textBox21S, textBox19S, textBox17S;
         string[] komunikat = new[]{
         "c<c_min Metoda „minimum” ",
-        "f*_k-f*_(k-1)<E",
-         "x*_k-x*_(k-1)<E ",
-        "Max(gradient)<E test stacjonarności",
+        "|F*_k-F*_(k-1)|<E",
+         "||x*_k-x*_(k-1)||<E",
         "ilość korków k>max_k",
-       "<gradient,gradient><E"
+       "<gradient F(x),gradient F(x)><E"
         };
         Powell powell;
         List<double> values;
@@ -75,7 +75,6 @@ namespace WindowsFormsApp1
             textBox26S = textBox26;
             textBox25S = textBox25;
             textBox22S = textBox22;
-            textBox21S = textBox21;
             textBox19S = textBox19;
             textBox17S = textBox17;
             if (Debug)
@@ -143,10 +142,10 @@ namespace WindowsFormsApp1
                 m2 = 10;
             }
 
-            double theta;
-            if (!double.TryParse(textBox33.Text, out theta))
+            double m1;
+            if (!double.TryParse(textBox34.Text, out m1))
             {
-                theta = 10;
+                m1 = 0.25;
             }
 
 
@@ -154,7 +153,7 @@ namespace WindowsFormsApp1
             powell = new Powell(comboBox1.Text, restrictions_g, arguments, c_min, max_k, c);
             powell.E = E;
             powell.m2 = m2;
-            powell.thetaStart = theta;
+            powell.m1 = m1;
 
             InstanceCaller = new Thread(
                      new ThreadStart(Thread_powell));
@@ -169,9 +168,20 @@ namespace WindowsFormsApp1
             CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             Thread.CurrentThread.CurrentCulture = customCulture;
-
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             powell.Calculate(values.ToArray());
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
             double[] x = powell._xPath[powell.k];
+            for (int i = 0; i < Restrictions_g.Count; i++)
+                SendMessage($"g{i}(x*) = {Restrictions_g[i].calculate(x)}");
+
             for (int i = 0; i < arguments.Length; i++)
             {
                 mXparser.consolePrintln(x[i]);
@@ -182,11 +192,16 @@ namespace WindowsFormsApp1
             mXparser.consolePrintln($"k: { powell.k} \r\n");
             SendMessage($"ilość kroków: { powell.k}");
             mXparser.consolePrintln($"Przerawnie: {komunikat[(int)powell.breakF]} \r\n");
+
+
+
             if (powell.breakF == 0)
                 SendMessage($"c: {powell.c}");
             SendMessage($"Przerwanie: { komunikat[(int)powell.breakF]}");
             SendWindow();
             IsRunning = false;
+            SendMessage($"Czas wykonywania: {elapsedTime}");
+            SendMessage("");
         }
 
         private bool CheckInpuValue()
@@ -233,7 +248,6 @@ namespace WindowsFormsApp1
             textBox26.Text = "";
             textBox25.Text = "";
             textBox22.Text = "";
-            textBox21.Text = "";
             textBox19.Text = "";
             textBox17.Text = "";
         }
@@ -312,6 +326,7 @@ namespace WindowsFormsApp1
                 textBox22S.AppendText(Environment.NewLine);
             });
         }
+
         public static void SendMessageE3(string value)
         {
             textBox21S.Invoke((MethodInvoker)delegate
@@ -361,23 +376,33 @@ namespace WindowsFormsApp1
             });
             if (InvokeRequired)
             {
-                Invoke(new Action(SendWindow));
-                List<Function> func = new List<Function>();
-                func.Add(f);
-                foreach (var resF in Restrictions_g)
-                    func.Add(resF);
+              //  Invoke(new Action(SendWindow));
                 if (arguments.Length == 2 && powell._xPath.All<double[]>(o => o.All<double>(l => !double.IsNaN(l) && !double.IsInfinity(l) && !float.IsInfinity((float)l))))
                 {
                     if (powell.funOptimumStep.All<double>(o => !double.IsNaN(o) && !double.IsInfinity(o) && !float.IsInfinity((float)o)))
                     {
-                        MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
-                        System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
-                        form.Show();
-                        System.Windows.Threading.Dispatcher.Run();
+                        Thread thread = new Thread(
+                                  new ThreadStart(Window));
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.IsBackground = true;
+                        // Start the thread.
+                        thread.Start();
+
                     }
                 }
                 return;
             }
+        }
+        void Window()
+        {
+            List<Function> func = new List<Function>();
+            func.Add(f);
+            foreach (var resF in Restrictions_g)
+                func.Add(resF);
+            MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
+            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
+            form.Show();
+            System.Windows.Threading.Dispatcher.Run();
         }
 
         private void Button5_Click(object sender, EventArgs e)

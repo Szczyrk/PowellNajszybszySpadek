@@ -29,13 +29,14 @@ namespace WindowsFormsApp1
         public double E = 0.001;
         double c_0;
         private bool[] chceckDoneSixStep;
-        private double m1 = 0.25;
-        public double m2 = 20;
-        public double thetaStart;
+        public double m1 = 0.25;
+        public double m2 = 10;
+        public double thetaStart = 0;
         public double alfa;
+        int round = 8;
         Function gradient;
 
-        public enum Break { c_cmin, fk1_fk2, xk1_xk2, max_absG, maxk, skalarG }
+        public enum Break { c_cmin, fk1_fk2, xk1_xk2, maxk, skalarG }
 
         public Break breakF;
 
@@ -44,7 +45,6 @@ namespace WindowsFormsApp1
             Restrictions_g.Clear();
             restrictions_xo.Clear();
             k = 0;
-
             _function_x = function_f;
             _restrictions_g = restrictions_g;
             _arguments = arguments;
@@ -69,7 +69,7 @@ namespace WindowsFormsApp1
             function = new Function("f", function_f, arguments);
         }
 
-        void DebugSendMessage(double e1, double e2, double e3, double e4)
+        void DebugSendMessage(double e1, double e2, double e4)
         {
             Form1.SendMessageC($"{c}");
             if (_arguments[0] == "x1" && _arguments.Length == 2)
@@ -85,7 +85,6 @@ namespace WindowsFormsApp1
             Form1.SendMessageF($"{funOptimumStep[k]}");
             Form1.SendMessageE1($"{e1}");
             Form1.SendMessageE2($"{e2}");
-            Form1.SendMessageE3($"{e3}");
             Form1.SendMessageE4($"{e4}");
 
         }
@@ -123,7 +122,7 @@ namespace WindowsFormsApp1
             //Krok 3
             for (int i = 0; i < _restrictions_g.Length; i++)
             {
-                if (Restrictions_g[i].calculate(x) + _thetas[k][i] >= 0)
+                if (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0)
                 {
                     restrictions_xo.Add(Math.Abs(Restrictions_g[i].calculate(x)));
                     c = restrictions_xo.Max();
@@ -145,8 +144,8 @@ namespace WindowsFormsApp1
             _deltas.Add(new List<double>());
             for (int i = 0; i < _restrictions_g.Length; i++)
             {
-                _thetas[k].Add(thetaStart);
-                _deltas[k].Add(1);
+                _thetas[k].Add(_thetas[k - 1][i]);
+                _deltas[k].Add(_deltas[k - 1][i]);
             }
             x = Subtraction(x, MultiAlfa(Gradient(k)));
             _xPath.Add(x);
@@ -161,14 +160,6 @@ namespace WindowsFormsApp1
                 Form1.DebugSendMessage($"");
                 if (CheckKryteriumStopu())
                     return x;
-                k++;
-                _thetas.Add(new List<double>());
-                _deltas.Add(new List<double>());
-                for (int i = 0; i < _restrictions_g.Length; i++)
-                {
-                    _thetas[k].Add(thetaStart);
-                    _deltas[k].Add(1);
-                }
                 Calculate_Powell();
             }
             return x;
@@ -216,23 +207,6 @@ namespace WindowsFormsApp1
             }
 
             sub = Gradient(k);
-            for (int i = 0; i < sub.Length; i++)
-            {
-                sub[i] = Math.Abs(sub[i]);
-            }
-            double e3 = sub.Max();
-            bool e3B = false;
-            mXparser.consolePrintln($"G tepPrevious : {String.Join(" ' ", sub)}");
-            Form1.DebugSendMessage($"G stepPrevious : {String.Join(" ' ", sub)}");
-            mXparser.consolePrintln($"G score : {e3}");
-            Form1.DebugSendMessage($"G score e3: {e3}");
-            if (e3 <= E)
-            {
-                breakF = Break.max_absG;
-                e3B = true;
-            }
-
-            sub = Gradient(k);
             double e4 = 0;
             bool e4B = false;
             for (int i = 0; i < sub.Length; i++)
@@ -250,8 +224,8 @@ namespace WindowsFormsApp1
                 e4B = true;
             }
 
-            DebugSendMessage(e1, e2, e3, e4);
-            if (e1B || e2B || e3B || e4B)
+            DebugSendMessage(e1, e2, e4);
+            if (e1B || e2B || e4B)
                 return true;
             return false;
         }
@@ -266,6 +240,14 @@ namespace WindowsFormsApp1
                 Form1.DebugSendMessage($"alfa {alfa}");
                 Form1.DebugSendMessage($"");
                 //Krok 2
+                k++;
+                _thetas.Add(new List<double>());
+                _deltas.Add(new List<double>());
+                for (int i = 0; i < _restrictions_g.Length; i++)
+                {
+                    _thetas[k].Add(_thetas[k - 1][i]);
+                    _deltas[k].Add(_deltas[k - 1][i]);
+                }
                 x = Subtraction(x, MultiAlfa(Gradient(k)));
                 _xPath.Add(x);
                 funOptimumStep.Add(function.calculate(x));
@@ -276,16 +258,20 @@ namespace WindowsFormsApp1
 
                 c_0 = c;
 
-
-                mXparser.consolePrintln($"H ErrorMessage : {H.getErrorMessage()}");
-                Form1.DebugSendMessage($"H ErrorMessage : {H.getErrorMessage()}");
+                if (c < c_min)
+                {
+                    breakF = Break.c_cmin;
+                    return;
+                }
+                //    mXparser.consolePrintln($"H ErrorMessage : {H.getErrorMessage()}");
+                //    Form1.DebugSendMessage($"H ErrorMessage : {H.getErrorMessage()}");
                 //mXparser.consolePrintln($"powell ErrorMessage : {powell.getErrorMessage()}");
 
                 restrictions_xo.Clear();
                 //Krok 3
                 for (int i = 0; i < _restrictions_g.Length; i++)
                 {
-                    if (Restrictions_g[i].calculate(x) + _thetas[k][i] >= 0)
+                    if (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0)
                     {
                         restrictions_xo.Add(Math.Abs(Restrictions_g[i].calculate(x)));
                         c = restrictions_xo.Max();
@@ -297,8 +283,10 @@ namespace WindowsFormsApp1
                 Form1.DebugSendMessage($"C {c}");
                 if (c < c_min)
                 {
+
                     breakF = Break.c_cmin;
                     return;
+
                 }
                 //Krok 5
                 if (c < c_0)
@@ -332,7 +320,7 @@ namespace WindowsFormsApp1
             double[] vs = new double[v1.Length];
             for (int i = 0; i < v1.Length; i++)
             {
-                vs[i] = v1[i] + v2[i];
+                vs[i] = Math.Round(v1[i] + v2[i], round);
             }
             return vs;
         }
@@ -343,59 +331,71 @@ namespace WindowsFormsApp1
             int j = 0;
             foreach (string arg in _arguments)
             {
-                List<Function> Restrictions_g_gradient = new List<Function>();
-                for (int i = 0; i < _restrictions_g.Length; i++)
+                if (Restrictions_g.Count > 0)
                 {
-                    Restrictions_g_gradient.Add(new Function("Restriction" + i, $"der({_restrictions_g[i]},{arg})", _arguments));
-                    mXparser.consolePrintln($"Restriction ErrorMessage : {Restrictions_g_gradient[i].getErrorMessage()}");
-                    Form1.DebugSendMessage($"Restriction ErrorMessage : {Restrictions_g_gradient[i].getErrorMessage()}");
+                    string sumR = "";
+                    for (int i = 0; i < Restrictions_g.Count; i++)
+                    {
+                        if (H.calculate(Restrictions_g[i].calculate(x) + _thetas[k][i]) == 1)
+                        {
+                            sumR += $"({_deltas[k][i]})*";
+                            sumR += $"(({_restrictions_g[i]})+({_thetas[k][i]}))^2";
+                            sumR += "+";
+                        }
+                    }
+                    if (sumR.Length > 0)
+                        sumR = sumR.Remove(sumR.Length - 1, 1);
+                    else
+                        sumR = "0";
+                    gradient = new Function("Powell", $"-der({_function_x},{arg})-der({sumR},{arg})", _arguments);
                 }
+                else
+                    gradient = new Function("Powell", $"-der({_function_x},{arg})", _arguments);
 
-                double sum = 0;
-                for (int i = 0; i < Restrictions_g_gradient.Count; i++)
-                {
-                    sum += _deltas[k][i] * Math.Pow((-Restrictions_g_gradient[i].calculate(x) + _thetas[k][i]), 2)
-                            * H.calculate(Restrictions_g[i].calculate(x) + _thetas[k][i]);
-                    Form1.DebugSendMessage($"H: { H.calculate(Restrictions_g[i].calculate(x) + _thetas[k][i])}");
-                    Form1.DebugSendMessage($"g(x)+_theta: {Restrictions_g[i].calculate(x) + _thetas[k][i]}");
-                    Form1.DebugSendMessage($"Gradientg(x)+_theta: {-Restrictions_g_gradient[i].calculate(x) + _thetas[k][i]}");
-                }
-
-                mXparser.consolePrintln($"Sum ograniczen: {sum}");
-                Form1.DebugSendMessage($"Sum ograniczen): {sum}");
-
-                gradient = new Function("Gradient", $"-der({_function_x},{arg})+({sum})", _arguments);
-
-                new_gradient[j++] = gradient.calculate(x);
+                new_gradient[j++] = Math.Round(gradient.calculate(x), round);
             }
-            mXparser.consolePrintln($"gradient ErrorMessage : {gradient.getErrorMessage()}");
-            Form1.DebugSendMessage($"gradient ErrorMessage : {gradient.getErrorMessage()}");
+            //  mXparser.consolePrintln($"gradient ErrorMessage : {gradient.getErrorMessage()}");
+            //  Form1.DebugSendMessage($"gradient ErrorMessage : {gradient.getErrorMessage()}");
             Form1.DebugSendMessage($"gradient: {String.Join("  ,  ", new_gradient)}");
+
             alfa = tau(k, new_gradient);
             if (alfa == -100000 || alfa == 0)
             {
                 Form1.DebugSendMessage($"");
                 Form1.DebugSendMessage($"Nie moża wyznaczyć tau");
                 Form1.DebugSendMessage($"");
-
-                alfa = 0.000000000000001;
+                if (round > 0)
+                {
+                    round--;
+                    new_gradient = Gradient(k);
+                }
+                else
+                    alfa = 0.000000000000001;
             }
             return new_gradient;
         }
         double tau(int k, double[] gradient)
         {
+            for (int i = 0; i < gradient.Length; i++)
+                if (gradient[i] == 0)
+                    gradient[i] = 0.0000001;
             if (Restrictions_g.Count > 0)
             {
                 string sumR = "";
                 for (int i = 0; i < Restrictions_g.Count; i++)
                 {
-                    sumR += $"{_deltas[k][i]}*";
-                    sumR += $"({_restrictions_g[i]}+{_thetas[k][i]})^2*H({_restrictions_g[i]}+{_thetas[k][i]})";
-                    if (i != Restrictions_g.Count - 1)
+                    if (H.calculate(Restrictions_g[i].calculate(x) + _thetas[k][i]) == 1)
+                    {
+                        sumR += $"({_deltas[k][i]})*";
+                        sumR += $"(({_restrictions_g[i]})+({_thetas[k][i]}))^2";
                         sumR += "+";
+                    }
                 }
+                if (sumR.Length > 0)
+                    sumR = sumR.Remove(sumR.Length - 1, 1);
+                else
+                    sumR = "0";
                 powell = new Function("Powell", $"{_function_x}+({sumR})", _arguments);
-                powell.addFunctions(H);
             }
             else
                 powell = new Function("Powell", $"{_function_x}", _arguments);
@@ -411,10 +411,10 @@ namespace WindowsFormsApp1
             tauF.addFunctions(powell);
             Argument tau = new Argument("tau");
             tauF.addArguments(tau);
-            if (x.Length == 2)
-                Form1.DebugSendMessage($"tau calculate : {tauF.calculate(x[0], x[1], 1)}");
-            mXparser.consolePrintln($"tau ErrorMessage : {tauF.getErrorMessage()}");
-            Form1.DebugSendMessage($"tau ErrorMessage : {tauF.getErrorMessage()}");
+            //  if (x.Length == 2)
+            //       Form1.DebugSendMessage($"tau calculate : {tauF.calculate(x[0], x[1], 1)}");
+            //   mXparser.consolePrintln($"tau ErrorMessage : {tauF.getErrorMessage()}");
+            //  Form1.DebugSendMessage($"tau ErrorMessage : {tauF.getErrorMessage()}");
 
             function_tau = $"solve(der(tauF(";
             for (int i = 0; i < _arguments.Length; i++)
@@ -422,6 +422,7 @@ namespace WindowsFormsApp1
                 function_tau += $"({_arguments[i]}), ";
             }
             function_tau += "tau), tau), tau, -100000, 100000 )";
+
 
             Expression e = new Expression(function_tau);
             e.addFunctions(tauF);
@@ -432,8 +433,8 @@ namespace WindowsFormsApp1
                 e.addArguments(x0);
             }
             e.addArguments(tau);
-            mXparser.consolePrintln($"tau' ErrorMessage : {e.getErrorMessage()}");
-            Form1.DebugSendMessage($"tau' ErrorMessage : {e.getErrorMessage()}");
+            // mXparser.consolePrintln($"tau' ErrorMessage : {e.getErrorMessage()}");
+            // Form1.DebugSendMessage($"tau' ErrorMessage : {e.getErrorMessage()}");
             double alfa2 = e.calculate();
             return alfa2;
         }
@@ -445,7 +446,7 @@ namespace WindowsFormsApp1
             {
                 for (int i = 0; i < _restrictions_g.Length; i++)
                 {
-                    _thetas[k][i] = Math.Max(Restrictions_g[i].calculate(x) + _thetas[k][i], 1);
+                    _thetas[k][i] = Math.Max(Restrictions_g[i].calculate(x) + _thetas[k][i], 0);
                 }
                 Form1.DebugSendMessage($"{k} deltas step8I =  {String.Join(" , ", _deltas[k])} thetas = {String.Join(" , ", _thetas[k])} ");
                 //krok 7
@@ -454,10 +455,10 @@ namespace WindowsFormsApp1
                 _deltas.Add(new List<double>());
                 for (int i = 0; i < _restrictions_g.Length; i++)
                 {
-                    _thetas[k].Add(thetaStart);
-                    _deltas[k].Add(1);
+                    _thetas[k].Add(_thetas[k - 1][i]);
+                    _deltas[k].Add(_deltas[k - 1][i]);
                 }
-                x = Subtraction(x, MultiAlfa(Gradient(k - 1)));
+                x = Subtraction(x, MultiAlfa(Gradient(k)));
                 _xPath.Add(x);
                 funOptimumStep.Add(function.calculate(x));
                 Form1.DebugSendMessage($"");
@@ -472,36 +473,37 @@ namespace WindowsFormsApp1
                 {
                     for (int i = 0; i < _restrictions_g.Length; i++)
                     {
-                        _thetas[k][i] = Math.Max(Restrictions_g[i].calculate(x) + _thetas[k][i], 1);
+                        _thetas[k][i] = Math.Max(Restrictions_g[i].calculate(x) + _thetas[k][i], 0);
                     }
                     Form1.DebugSendMessage($"{k} deltas step8IIA  =  {String.Join(" , ", _deltas[k])} thetas = {String.Join(" , ", _thetas[k])} ");
                     //krok 7
-                    /*                    Form1.DebugSendMessage($"");
-                                        k++;
-                                        _thetas.Add(new List<double>());
-                                        _deltas.Add(new List<double>());
-                                        for (int i = 0; i < _restrictions_g.Length; i++)
-                                        {
-                                            _thetas[k].Add(thetaStart);
-                                            _deltas[k].Add(1);
-                                        }
-                                        x = Subtraction(x, MultiAlfa(Gradient(k - 1)));
-                                        _xPath.Add(x);
-                                        funOptimumStep.Add(function.calculate(x));
-                                        Form1.DebugSendMessage($"f : {funOptimumStep[k]}");
-                                        for (int i = 0; i < x.Length; i++)
-                                            Form1.DebugSendMessage($"{_arguments[i]} : {x[i]}");
-                                        c_0 = c;*/
+                    Form1.DebugSendMessage($"");
+                    k++;
+                    _thetas.Add(new List<double>());
+                    _deltas.Add(new List<double>());
+                    for (int i = 0; i < _restrictions_g.Length; i++)
+                    {
+                        _thetas[k].Add(_thetas[k - 1][i]);
+                        _deltas[k].Add(_deltas[k - 1][i]);
+                    }
+                    x = Subtraction(x, MultiAlfa(Gradient(k)));
+                    _xPath.Add(x);
+                    funOptimumStep.Add(function.calculate(x));
+                    Form1.DebugSendMessage($"f : {funOptimumStep[k]}");
+                    for (int i = 0; i < x.Length; i++)
+                        Form1.DebugSendMessage($"{_arguments[i]} : {x[i]}");
+                    c_0 = c;
                 }
                 else
                 {
                     chceckDoneSixStep[k] = true;
                     for (int i = 0; i < Restrictions_g.Count; i++)
                     {
-                        if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] >= 0))
+                        if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0))
                         {
-                            _deltas[k][i] = m2 * _deltas[k][i];
-                            _thetas[k][i] = _thetas[k][i] / m2;
+                            if (_deltas[k][i] < Math.Pow(10, round/2))
+                                _deltas[k][i] = m2 * _deltas[k][i];
+                            _thetas[k][i] = Math.Round(_thetas[k][i] / m2, round);
                         }
                     }
                     Form1.DebugSendMessage($"{k} deltas step8IIB  =  {String.Join(" , ", _deltas[k])} thetas = {String.Join(" , ", _thetas[k])} ");
@@ -514,10 +516,11 @@ namespace WindowsFormsApp1
             chceckDoneSixStep[k] = true;
             for (int i = 0; i < Restrictions_g.Count; i++)
             {
-                if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] >= 0))
+                if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0))
                 {
-                    _deltas[k][i] = m2 * _deltas[k][i];
-                    _thetas[k][i] = _thetas[k][i] / m2;
+                    if (_deltas[k][i] < Math.Pow(10, round/2))
+                        _deltas[k][i] = m2 * _deltas[k][i];
+                    _thetas[k][i] = Math.Round(_thetas[k][i] / m2, round);
                 }
             }
             Form1.DebugSendMessage($"{k} deltas step6  =  {String.Join(" , ", _deltas[k])} thetas = {String.Join(" , ", _thetas[k])} ");
@@ -533,10 +536,10 @@ namespace WindowsFormsApp1
             _deltas.Add(new List<double>());
             for (int i = 0; i < _restrictions_g.Length; i++)
             {
-                _thetas[k].Add(thetaStart);
-                _deltas[k].Add(1);
+                _thetas[k].Add(_thetas[k - 1][i]);
+                _deltas[k].Add(_deltas[k - 1][i]);
             }
-            x = Subtraction(x, MultiAlfa(Gradient(k - 1)));
+            x = Subtraction(x, MultiAlfa(Gradient(k)));
             _xPath.Add(x);
             funOptimumStep.Add(function.calculate(x));
             Form1.DebugSendMessage($"f : {funOptimumStep[k]}");

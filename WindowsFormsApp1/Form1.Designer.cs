@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -58,10 +59,8 @@
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
             this.textBox20 = new System.Windows.Forms.TextBox();
-            this.textBox21 = new System.Windows.Forms.TextBox();
             this.textBox22 = new System.Windows.Forms.TextBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
-            this.textBox24 = new System.Windows.Forms.TextBox();
             this.textBox25 = new System.Windows.Forms.TextBox();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.textBox27 = new System.Windows.Forms.TextBox();
@@ -73,6 +72,11 @@
             this.textBox33 = new System.Windows.Forms.TextBox();
             this.textBox34 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.textBox35 = new System.Windows.Forms.TextBox();
+            this.textBox36 = new System.Windows.Forms.TextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -262,11 +266,11 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(256, 41);
+            this.textBox12.Location = new System.Drawing.Point(256, 38);
             this.textBox12.Multiline = true;
             this.textBox12.Name = "textBox12";
             this.textBox12.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox12.Size = new System.Drawing.Size(604, 91);
+            this.textBox12.Size = new System.Drawing.Size(604, 109);
             this.textBox12.TabIndex = 79;
             // 
             // comboBox1
@@ -298,7 +302,7 @@
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(37, 20);
             this.textBox13.TabIndex = 82;
-            this.textBox13.Text = "Kroki";
+            this.textBox13.Text = "L_max";
             // 
             // textBox14
             // 
@@ -340,7 +344,7 @@
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(221, 546);
+            this.textBox17.Location = new System.Drawing.Point(293, 546);
             this.textBox17.Multiline = true;
             this.textBox17.Name = "textBox17";
             this.textBox17.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -350,15 +354,16 @@
             // 
             // textBox18
             // 
-            this.textBox18.Location = new System.Drawing.Point(354, 599);
+            this.textBox18.Location = new System.Drawing.Point(472, 599);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(31, 20);
             this.textBox18.TabIndex = 88;
             this.textBox18.Text = "e2->";
+            this.toolTip2.SetToolTip(this.textBox18, "||x*_k-x*_(k-1)||<E");
             // 
             // textBox19
             // 
-            this.textBox19.Location = new System.Drawing.Point(391, 546);
+            this.textBox19.Location = new System.Drawing.Point(519, 546);
             this.textBox19.Multiline = true;
             this.textBox19.Name = "textBox19";
             this.textBox19.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -368,21 +373,12 @@
             // 
             // textBox20
             // 
-            this.textBox20.Location = new System.Drawing.Point(354, 562);
+            this.textBox20.Location = new System.Drawing.Point(256, 599);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(31, 20);
             this.textBox20.TabIndex = 88;
-            this.textBox20.Text = "<-e1";
-            // 
-            // textBox21
-            // 
-            this.textBox21.Location = new System.Drawing.Point(575, 546);
-            this.textBox21.Multiline = true;
-            this.textBox21.Name = "textBox21";
-            this.textBox21.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox21.Size = new System.Drawing.Size(127, 83);
-            this.textBox21.TabIndex = 87;
-            this.textBox21.WordWrap = false;
+            this.textBox20.Text = "e1->";
+            this.toolTip1.SetToolTip(this.textBox20, "|F*_k-F*_(k-1)|<E");
             // 
             // textBox22
             // 
@@ -400,15 +396,8 @@
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(31, 20);
             this.textBox23.TabIndex = 88;
-            this.textBox23.Text = "e4->";
-            // 
-            // textBox24
-            // 
-            this.textBox24.Location = new System.Drawing.Point(708, 562);
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(31, 20);
-            this.textBox24.TabIndex = 88;
-            this.textBox24.Text = "<-e3";
+            this.textBox23.Text = "e3->";
+            this.toolTip3.SetToolTip(this.textBox23, "<gradient F(x),gradient F(x)><E");
             // 
             // textBox25
             // 
@@ -484,7 +473,7 @@
             // 
             // textBox33
             // 
-            this.textBox33.Location = new System.Drawing.Point(181, 62);
+            this.textBox33.Location = new System.Drawing.Point(192, 62);
             this.textBox33.Name = "textBox33";
             this.textBox33.Size = new System.Drawing.Size(54, 20);
             this.textBox33.TabIndex = 81;
@@ -492,11 +481,11 @@
             // 
             // textBox34
             // 
-            this.textBox34.Location = new System.Drawing.Point(181, 88);
+            this.textBox34.Location = new System.Drawing.Point(192, 88);
             this.textBox34.Name = "textBox34";
             this.textBox34.Size = new System.Drawing.Size(54, 20);
             this.textBox34.TabIndex = 81;
-            this.textBox34.Text = "10";
+            this.textBox34.Text = "0.25";
             // 
             // button6
             // 
@@ -508,14 +497,34 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
+            // textBox35
+            // 
+            this.textBox35.Enabled = false;
+            this.textBox35.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox35.Location = new System.Drawing.Point(161, 62);
+            this.textBox35.Name = "textBox35";
+            this.textBox35.Size = new System.Drawing.Size(25, 20);
+            this.textBox35.TabIndex = 71;
+            this.textBox35.Text = "m2";
+            // 
+            // textBox36
+            // 
+            this.textBox36.Enabled = false;
+            this.textBox36.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox36.Location = new System.Drawing.Point(161, 88);
+            this.textBox36.Name = "textBox36";
+            this.textBox36.Size = new System.Drawing.Size(25, 20);
+            this.textBox36.TabIndex = 84;
+            this.textBox36.Text = "m1";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(884, 631);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.textBox32);
-            this.Controls.Add(this.textBox24);
             this.Controls.Add(this.textBox31);
             this.Controls.Add(this.textBox20);
             this.Controls.Add(this.textBox30);
@@ -526,12 +535,12 @@
             this.Controls.Add(this.textBox22);
             this.Controls.Add(this.textBox27);
             this.Controls.Add(this.textBox26);
-            this.Controls.Add(this.textBox21);
             this.Controls.Add(this.textBox25);
             this.Controls.Add(this.textBox19);
             this.Controls.Add(this.textBox17);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.textBox36);
             this.Controls.Add(this.textBox15);
             this.Controls.Add(this.textBox14);
             this.Controls.Add(this.textBox13);
@@ -545,6 +554,7 @@
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox9);
+            this.Controls.Add(this.textBox35);
             this.Controls.Add(this.textBox8);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.textBox6);
@@ -595,10 +605,8 @@
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.TextBox textBox20;
-        private System.Windows.Forms.TextBox textBox21;
         private System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.TextBox textBox23;
-        private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.TextBox textBox26;
         private System.Windows.Forms.TextBox textBox27;
@@ -610,6 +618,11 @@
         private System.Windows.Forms.TextBox textBox33;
         private System.Windows.Forms.TextBox textBox34;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox textBox35;
+        private System.Windows.Forms.TextBox textBox36;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.ToolTip toolTip3;
     }
 }
 
