@@ -1,6 +1,7 @@
 ﻿using org.mariuszgromada.math.mxparser;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace WindowsFormsApp1
         public double m2 = 10;
         public double thetaStart = 0;
         public double alfa;
+        int Lp = 1;
         int round = 8;
         Function gradient;
 
@@ -165,6 +167,20 @@ namespace WindowsFormsApp1
             return x;
         }
 
+        void SaveToFileLatex()
+        {
+            if (Form1.saveToFile)
+            {
+                string docPath =
+                  Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "data_output.txt"),true))
+                {
+                    outputFile.WriteLine($"{Lp++} & {x[0]} & {x[1]} & {funOptimumStep[k]} & {c} \\hline");
+                }
+            }
+        }
+
         private bool CheckKryteriumStopu()
         {
             double step = funOptimumStep[k];
@@ -277,6 +293,7 @@ namespace WindowsFormsApp1
                         c = restrictions_xo.Max();
                     }
                 }
+                SaveToFileLatex();
 
                 //Krok 4
                 mXparser.consolePrintln($"C {c}");
@@ -501,7 +518,7 @@ namespace WindowsFormsApp1
                     {
                         if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0))
                         {
-                            if (_deltas[k][i] < Math.Pow(10, round/2))
+                            if (_deltas[k][i] < Math.Pow(10, round / 2))
                                 _deltas[k][i] = m2 * _deltas[k][i];
                             _thetas[k][i] = Math.Round(_thetas[k][i] / m2, round);
                         }
@@ -518,7 +535,7 @@ namespace WindowsFormsApp1
             {
                 if ((Math.Abs(Restrictions_g[i].calculate(x)) > m1 * c_0) && (Restrictions_g[i].calculate(x) + _thetas[k][i] > 0))
                 {
-                    if (_deltas[k][i] < Math.Pow(10, round/2))
+                    if (_deltas[k][i] < Math.Pow(10, round / 2))
                         _deltas[k][i] = m2 * _deltas[k][i];
                     _thetas[k][i] = Math.Round(_thetas[k][i] / m2, round);
                 }

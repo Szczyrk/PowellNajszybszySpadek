@@ -51,13 +51,13 @@ namespace nzy3d_wpfDemo
             for (int i = 0; i < xy.Count; i++)
                 coord3Ds.Add(new Coord3d(xy[i][0], xy[i][1], z[i]));
 
-            colors.Add(new nzy3D.Colors.Color(255, 105, 180));
-            colors.Add(new nzy3D.Colors.Color(0, 255, 127));
-            colors.Add(new nzy3D.Colors.Color(255, 99, 71));
-            colors.Add(new nzy3D.Colors.Color(233, 150, 122));
-            colors.Add(new nzy3D.Colors.Color(218, 112, 214));
-            colors.Add(new nzy3D.Colors.Color(124, 252, 0));
-            colors.Add(new nzy3D.Colors.Color(175, 238, 238));
+            colors.Add(new nzy3D.Colors.Color(255, 105, 180, 0.2));
+            colors.Add(new nzy3D.Colors.Color(0, 255, 127, 0.2));
+            colors.Add(new nzy3D.Colors.Color(255, 99, 71, 0.2));
+            colors.Add(new nzy3D.Colors.Color(233, 150, 122, 0.2));
+            colors.Add(new nzy3D.Colors.Color(218, 112, 214, 0.2));
+            colors.Add(new nzy3D.Colors.Color(124, 252, 0, 0.2));
+            colors.Add(new nzy3D.Colors.Color(175, 238, 238, 0.2));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -106,6 +106,8 @@ namespace nzy3d_wpfDemo
             {
                 step = 20;
             }
+            if (from == to)
+                return;
             Range range = new Range(from, to);
             int steps = step;
 
@@ -129,10 +131,12 @@ namespace nzy3d_wpfDemo
                 // Create the chart and embed the surface within
                 chart.Scene.Graph.Add(surface);
             }
-
-            if (coord3Ds.All<Coord3d>(c => !double.IsNaN(c.x) || !double.IsNaN(c.z) || !double.IsNaN(c.y)))
+            List<Coord3d> coordWithRange = new List<Coord3d>();
+            coordWithRange.AddRange(coord3Ds.Where<Coord3d>
+                (c => !double.IsNaN(c.x) && !double.IsNaN(c.z) && !double.IsNaN(c.y) && c.x>=from && c.x<=to && c.y >= from && c.y <= to));
+            if (coordWithRange.Count > 0)
             {
-                MultiColorScatter surface2 = new MultiColorScatter(coord3Ds.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
+                MultiColorScatter surface2 = new MultiColorScatter(coordWithRange.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
                 surface2.ColorMapper = new ColorMapper(new ColorMapRainbow(), surface2.Bounds.zmin, surface2.Bounds.zmax, nzy3D.Colors.Color.BLACK);
                 // Create the chart and embed the surface within
                 chart.Scene.Graph.Add(surface2);

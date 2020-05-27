@@ -92,8 +92,7 @@ namespace WindowsFormsApp1.nzy3d_api.Plot3D.Primitives
                 _transform.Execute();
 
             GL.PointSize(width);
-            GL.Begin(BeginMode.Points);
-
+            GL.Begin(BeginMode.LineStrip);
             if (coordinates != null)
             {
                 foreach (Coord3d coord in coordinates)
@@ -101,6 +100,20 @@ namespace WindowsFormsApp1.nzy3d_api.Plot3D.Primitives
                     Color color = mapper.Color(coord); // TODO: should store result in the point color
                     GL.Color4(color.r, color.g, color.b, color.a);
                     GL.Vertex3(coord.x, coord.y, coord.z);
+                }
+            }
+            GL.End();
+            GL.PointSize(width);
+            GL.Begin(BeginMode.Points);
+            if (coordinates != null)
+            {
+                for (int i = 0; i < coordinates.Length; i++)
+                {
+                    Color color = mapper.Color(coordinates[i]);
+                    if (i == coordinates.Length - 1)
+                        color = Color.RED;
+                    GL.Color4(color.r, color.g, color.b, color.a);
+                    GL.Vertex3(coordinates[i].x, coordinates[i].y, coordinates[i].z);
                 }
             }
             GL.End();

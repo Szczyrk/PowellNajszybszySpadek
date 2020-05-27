@@ -41,6 +41,7 @@ namespace WindowsFormsApp1
         Thread InstanceCaller;
         private volatile bool isRunning;
         public static EventWaitHandle waitHandle = new ManualResetEvent(initialState: true);
+        internal static readonly bool saveToFile = true;
 
         public bool IsRunning { get => isRunning; set => isRunning = value; }
 
