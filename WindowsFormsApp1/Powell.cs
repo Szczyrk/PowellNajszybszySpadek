@@ -13,7 +13,7 @@ namespace WindowsFormsApp1
         private string _function_x;
         private string[] _restrictions_g;
         public List<Function> Restrictions_g = new List<Function>();
-        private Function powell;
+        public Function powell;
         private Function function;
         private Function H = new Function("H", "if(g>0, 1, 0)", "g");
         public int max_k = 10;

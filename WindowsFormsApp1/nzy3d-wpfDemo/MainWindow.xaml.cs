@@ -43,11 +43,14 @@ namespace nzy3d_wpfDemo
         List<Function> function;
         List<Coord3d> coord3Ds = new List<Coord3d>();
         List<nzy3D.Colors.Color> colors = new List<nzy3D.Colors.Color>();
+        Function FunctionCelu;
+        Function PowellFunction;
 
-        public MainWindow(List<Function> fs, List<double[]> xy, List<double> z)
+        public MainWindow(List<Function> fs, List<double[]> xy, List<double> z, Function powellFunction)
         {
             InitializeComponent();
             function = fs;
+            FunctionCelu = fs[0];
             for (int i = 0; i < xy.Count; i++)
                 coord3Ds.Add(new Coord3d(xy[i][0], xy[i][1], z[i]));
 
@@ -58,6 +61,7 @@ namespace nzy3d_wpfDemo
             colors.Add(new nzy3D.Colors.Color(218, 112, 214, 0.2));
             colors.Add(new nzy3D.Colors.Color(124, 252, 0, 0.2));
             colors.Add(new nzy3D.Colors.Color(175, 238, 238, 0.2));
+            PowellFunction = powellFunction;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -114,6 +118,7 @@ namespace nzy3d_wpfDemo
             // Build a nice surface to display with cool alpha colors 
             // (alpha 0.8 for surface color and 0.5 for wireframe)
             Chart chart = new Chart(renderer, Quality.Nicest);
+            textFunkcji.Text = $"f(x1,x2) = {function[0].getFunctionExpressionString()}";
 
             Shape surface;
             int k = 0;
@@ -133,7 +138,7 @@ namespace nzy3d_wpfDemo
             }
             List<Coord3d> coordWithRange = new List<Coord3d>();
             coordWithRange.AddRange(coord3Ds.Where<Coord3d>
-                (c => !double.IsNaN(c.x) && !double.IsNaN(c.z) && !double.IsNaN(c.y) && c.x>=from && c.x<=to && c.y >= from && c.y <= to));
+                (c => !double.IsNaN(c.x) && !double.IsNaN(c.z) && !double.IsNaN(c.y) && c.x >= from && c.x <= to && c.y >= from && c.y <= to));
             if (coordWithRange.Count > 0)
             {
                 MultiColorScatter surface2 = new MultiColorScatter(coordWithRange.ToArray(), new nzy3D.Colors.Color[] { nzy3D.Colors.Color.BLACK }, new ColorMapper(new ColorMapRainbow(), -10f, 10f), 5f);
@@ -330,6 +335,14 @@ namespace nzy3d_wpfDemo
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Window_Loaded(sender, e);
+        }
+        private void Button_Funkcja(object sender, RoutedEventArgs e)
+        {
+            if (function[0].getFunctionExpressionString() != PowellFunction.getFunctionExpressionString())
+                function[0] = PowellFunction;
+            else
+                function[0] = FunctionCelu;
             Window_Loaded(sender, e);
         }
     }

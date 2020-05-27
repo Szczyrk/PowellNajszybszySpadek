@@ -400,7 +400,7 @@ namespace WindowsFormsApp1
             func.Add(f);
             foreach (var resF in Restrictions_g)
                 func.Add(resF);
-            MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep);
+            MainWindow form = new MainWindow(func, powell._xPath, powell.funOptimumStep, powell.powell);
             System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(form);
             form.Show();
             System.Windows.Threading.Dispatcher.Run();

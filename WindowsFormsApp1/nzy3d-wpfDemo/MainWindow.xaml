@@ -27,6 +27,8 @@
 			</Grid>
 			<Grid x:Name="Images" Height="100"/>
 			<Button Content="Załaduj wykres ponownie" Click="Button_Click"/>
+			<Button Content="Zmień funkcję celu" Click="Button_Funkcja"/>
+			<TextBlock x:Name="textFunkcji" TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 		</StackPanel>
 	</Grid>
 </Window>
