@@ -174,7 +174,7 @@ namespace WindowsFormsApp1
                 string docPath =
                   Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "data_output.txt"),true))
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "data_output.txt"), true))
                 {
                     outputFile.WriteLine($"{Lp++} & {x[0]} & {x[1]} & {funOptimumStep[k]} & {c} \\hline");
                 }
@@ -279,6 +279,9 @@ namespace WindowsFormsApp1
                     breakF = Break.c_cmin;
                     return;
                 }
+
+                if (Restrictions_g.All<Function>(r => r.calculate(x) <= 0))
+                    return;
                 //    mXparser.consolePrintln($"H ErrorMessage : {H.getErrorMessage()}");
                 //    Form1.DebugSendMessage($"H ErrorMessage : {H.getErrorMessage()}");
                 //mXparser.consolePrintln($"powell ErrorMessage : {powell.getErrorMessage()}");
