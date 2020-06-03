@@ -203,6 +203,15 @@ namespace WindowsFormsApp1
             IsRunning = false;
             SendMessage($"Czas wykonywania: {elapsedTime}");
             SendMessage("");
+            DebugSendMessage("");
+            DebugSendMessage("Metoda Najszybszego Spadku");
+            foreach(var text in powell.finallySorces)
+                DebugSendMessage(text);
+            DebugSendMessage("");
+            DebugSendMessage("Metoda Powella");
+            foreach (var text in powell.finallySorcesPowell)
+                DebugSendMessage(text);
+            DebugSendMessage("");
         }
 
         private bool CheckInpuValue()

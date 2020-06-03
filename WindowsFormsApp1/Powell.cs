@@ -37,6 +37,8 @@ namespace WindowsFormsApp1
         int Lp = 1;
         int round = 8;
         Function gradient;
+        public List<string> finallySorces = new List<string>();
+        public List<string> finallySorcesPowell = new List<string>();
 
         public enum Break { c_cmin, fk1_fk2, xk1_xk2, maxk, skalarG }
 
@@ -71,23 +73,28 @@ namespace WindowsFormsApp1
             function = new Function("f", function_f, arguments);
         }
 
-        void DebugSendMessage(double e1, double e2, double e4)
+        void DebugSendMessage(double e1, double e2, double e3)
         {
             Form1.SendMessageC($"{c}");
-            if (_arguments[0] == "x1" && _arguments.Length == 2)
-            {
-                Form1.SendMessageX1($"{x[0]}");
-                Form1.SendMessageX2($"{x[1]}");
-            }
-            else
-            {
-                Form1.SendMessageX1($"{x[1]}");
-                Form1.SendMessageX2($"{x[0]}");
-            }
+            if (_arguments.Length == 2)
+                if (_arguments[0] == "x1")
+                {
+                    Form1.SendMessageX1($"{x[0]}");
+                    Form1.SendMessageX2($"{x[1]}");
+                }
+                else
+                {
+                    Form1.SendMessageX1($"{x[1]}");
+                    Form1.SendMessageX2($"{x[0]}");
+                }
             Form1.SendMessageF($"{funOptimumStep[k]}");
             Form1.SendMessageE1($"{e1}");
             Form1.SendMessageE2($"{e2}");
-            Form1.SendMessageE4($"{e4}");
+            Form1.SendMessageE4($"{e3}");
+            string xSorces = "";
+            for (int i = 0; i < x.Length; i++)
+                xSorces += $"{x[i]} & ";
+            finallySorces.Add($"{xSorces}{funOptimumStep[k]} & {c} & {e1} & {e2} & {e3} ");
 
         }
 
@@ -170,6 +177,11 @@ namespace WindowsFormsApp1
 
         void SaveToFileLatex()
         {
+            string xSorces = "";
+            for (int i = 0; i < x.Length; i++)
+                xSorces += $"{x[i]} & ";
+            finallySorcesPowell.Add($"{Lp} & {xSorces}{funOptimumStep[k]} & {c} ");
+
             if (Form1.saveToFile)
             {
                 string docPath =
@@ -223,7 +235,7 @@ namespace WindowsFormsApp1
                 e2B = true;
             }
 
-            sub = Gradient(k);
+            sub = GradientWithoutAnty(k);
             double e4 = 0;
             bool e4B = false;
             for (int i = 0; i < sub.Length; i++)
@@ -354,6 +366,37 @@ namespace WindowsFormsApp1
             return vs;
         }
 
+        double[] GradientWithoutAnty(int k)
+        {
+            double[] new_gradient = new double[x.Length];
+            int j = 0;
+            foreach (string arg in _arguments)
+            {
+                if (Restrictions_g.Count > 0)
+                {
+                    string sumR = "";
+                    for (int i = 0; i < Restrictions_g.Count; i++)
+                    {
+                        if (H.calculate(Restrictions_g[i].calculate(x) + _thetas[k][i]) == 1)
+                        {
+                            sumR += $"({_deltas[k][i]})*";
+                            sumR += $"(({_restrictions_g[i]})+({_thetas[k][i]}))^2";
+                            sumR += "+";
+                        }
+                    }
+                    if (sumR.Length > 0)
+                        sumR = sumR.Remove(sumR.Length - 1, 1);
+                    else
+                        sumR = "0";
+                    gradient = new Function("Powell", $"-der({_function_x},{arg})-der({sumR},{arg})", _arguments);
+                }
+                else
+                    gradient = new Function("Powell", $"-der({_function_x},{arg})", _arguments);
+
+                new_gradient[j++] = Math.Round(gradient.calculate(x), round);
+            }
+            return new_gradient;
+        }
         double[] Gradient(int k)
         {
             double[] new_gradient = new double[x.Length];
